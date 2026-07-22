@@ -3,7 +3,8 @@ package server
 import (
 	"log"
 	"net"
-	"strings"
+
+	"github.com/alexnakagama/redis-clone-go/internal/commands"
 )
 
 type Server struct {
@@ -56,17 +57,19 @@ func handleConnection(conn net.Conn) error {
 	}
 
 	message := string(buffer[:n])
-	message = strings.TrimSpace(message)
 
 	log.Println("received: ", message)
 
-	if message == "PING" {
-		bytes := []byte("PONG")
+	response, err := commands.Process(message)
+	if err != nil {
+		return err
+	}
 
-		_, err := conn.Write(bytes)
-		if err != nil {
-			return err
-		}
+	data := []byte(response)
+
+	_, err = conn.Write(data)
+	if err != nil {
+		return err
 	}
 
 	return nil
