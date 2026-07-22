@@ -24,13 +24,21 @@ func NewServer(addr string) (*Server, error) {
 }
 
 func (s *Server) Start() error {
-	conn, err := s.listener.Accept()
-	if err != nil {
-		return err
+	for {
+		conn, err := s.listener.Accept()
+		if err != nil {
+			return err
+		}
+
+		handleConnection(conn)
 	}
+}
 
-	defer conn.Close()
+func (s *Server) Close() error {
+	return s.listener.Close()
+}
 
+func handleConnection(conn net.Conn) error {
 	buffer := make([]byte, 1024)
 
 	n, err := conn.Read(buffer)
@@ -38,11 +46,16 @@ func (s *Server) Start() error {
 		return err
 	}
 
-	data := buffer[:n]
+	message := string(buffer[:n])
+
+	if message == "PING" {
+		bytes := []byte("PONG")
+
+		_, err := conn.Write(bytes)
+		if err != nil {
+			return err
+		}
+	}
 
 	return nil
-}
-
-func (s *Server) Close() error {
-
 }

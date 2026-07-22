@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	fmt.Printf("Hello world")
+	fmt.Println("Welcome to the TCP Server")
 }
