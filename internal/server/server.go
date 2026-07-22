@@ -46,6 +46,8 @@ func (s *Server) Close() error {
 }
 
 func handleConnection(conn net.Conn) error {
+	defer conn.Close()
+
 	buffer := make([]byte, 1024)
 
 	n, err := conn.Read(buffer)
