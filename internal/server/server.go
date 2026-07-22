@@ -1,7 +1,9 @@
 package server
 
 import (
+	"log"
 	"net"
+	"strings"
 )
 
 type Server struct {
@@ -30,7 +32,12 @@ func (s *Server) Start() error {
 			return err
 		}
 
-		handleConnection(conn)
+		log.Println("client connected")
+
+		err = handleConnection(conn)
+		if err != nil {
+			log.Println(err)
+		}
 	}
 }
 
@@ -47,6 +54,9 @@ func handleConnection(conn net.Conn) error {
 	}
 
 	message := string(buffer[:n])
+	message = strings.TrimSpace(message)
+
+	log.Println("received: ", message)
 
 	if message == "PING" {
 		bytes := []byte("PONG")
