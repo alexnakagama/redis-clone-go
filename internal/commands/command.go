@@ -7,11 +7,44 @@ import (
 )
 
 func Process(message string, s *store.Store) (string, error) {
-	message = strings.TrimSpace(message)
+	parts := strings.Fields(message)
 
-	switch message {
+	if len(parts) == 0 {
+		return "ERROR: empty command", nil
+	}
+
+	command := parts[0]
+
+	switch command {
+
 	case "PING":
 		return "PONG", nil
+
+	case "GET":
+		if len(parts) < 2 {
+			return "ERROR: missing key", nil
+		}
+
+		value, exists := s.Get(parts[1])
+		if !exists {
+			return "(nil)", nil
+		}
+
+		return value, nil
+
+	case "SET":
+		if len(parts) < 3 {
+			return "ERROR: missing key", nil
+		}
+
+		err := s.Set(parts[1], parts[2])
+
+		if err != nil {
+			return "ERROR: set failed", err
+		}
+
+		return "OK", nil
+
 	default:
 		return "ERROR: unknown command", nil
 	}
