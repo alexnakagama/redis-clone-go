@@ -5,11 +5,13 @@ import (
 	"net"
 
 	"github.com/alexnakagama/redis-clone-go/internal/commands"
+	"github.com/alexnakagama/redis-clone-go/internal/store"
 )
 
 type Server struct {
 	address  string
 	listener net.Listener
+	store    *store.Store
 }
 
 func NewServer(addr string) (*Server, error) {
@@ -21,6 +23,7 @@ func NewServer(addr string) (*Server, error) {
 	server := &Server{
 		address:  addr,
 		listener: listener,
+		store:    store.NewStore(),
 	}
 
 	return server, nil
