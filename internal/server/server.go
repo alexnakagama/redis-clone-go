@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"log"
 	"net"
 
@@ -59,6 +60,11 @@ func handleConnection(conn net.Conn, s *store.Store) error {
 	for {
 		n, err := conn.Read(buffer)
 		if err != nil {
+			if err == io.EOF {
+				log.Println("client disconnected")
+				return nil
+			}
+
 			return err
 		}
 
