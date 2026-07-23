@@ -45,6 +45,18 @@ func Process(message string, s *store.Store) (string, error) {
 
 		return "OK", nil
 
+	case "DEL":
+		if len(parts) < 2 {
+			return "ERROR: missing key", nil
+		}
+
+		exists := s.Delete(parts[1])
+		if !exists {
+			return "ERROR: key not found", nil
+		}
+
+		return "OK", nil
+
 	default:
 		return "ERROR: unknown command", nil
 	}
