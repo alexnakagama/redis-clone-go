@@ -38,7 +38,7 @@ func (s *Server) Start() error {
 
 		log.Println("client connected")
 
-		err = handleConnection(conn)
+		err = handleConnection(conn, s.store)
 		if err != nil {
 			log.Println(err)
 		}
@@ -49,7 +49,7 @@ func (s *Server) Close() error {
 	return s.listener.Close()
 }
 
-func handleConnection(conn net.Conn) error {
+func handleConnection(conn net.Conn, s *store.Store) error {
 	defer conn.Close()
 
 	buffer := make([]byte, 1024)
@@ -64,7 +64,7 @@ func handleConnection(conn net.Conn) error {
 
 		log.Println("received: ", message)
 
-		response, err := commands.Process(message)
+		response, err := commands.Process(message, s)
 		if err != nil {
 			return err
 		}
