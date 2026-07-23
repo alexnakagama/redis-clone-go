@@ -72,7 +72,7 @@ func handleConnection(conn net.Conn, s *store.Store) error {
 
 		log.Println("received: ", message)
 
-		response, err := commands.Process(message, s)
+		response, closeConn, err := commands.Process(message, s)
 		if err != nil {
 			return err
 		}
@@ -82,6 +82,11 @@ func handleConnection(conn net.Conn, s *store.Store) error {
 		_, err = conn.Write(data)
 		if err != nil {
 			return err
+		}
+
+		if closeConn {
+			log.Println("closing client connection")
+			return nil
 		}
 	}
 }
