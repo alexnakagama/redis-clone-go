@@ -8,9 +8,10 @@ import (
 )
 
 func main() {
-	fmt.Println("Welcome to the TCP Server")
+	port := ":6379"
+	fmt.Println("Server running in port", port)
 
-	s, err := server.NewServer(":6379")
+	s, err := server.NewServer(port)
 	if err != nil {
 		log.Println(err)
 	}
