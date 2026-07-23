@@ -51,26 +51,26 @@ func handleConnection(conn net.Conn) error {
 
 	buffer := make([]byte, 1024)
 
-	n, err := conn.Read(buffer)
-	if err != nil {
-		return err
+	for {
+		n, err := conn.Read(buffer)
+		if err != nil {
+			return err
+		}
+
+		message := string(buffer[:n])
+
+		log.Println("received: ", message)
+
+		response, err := commands.Process(message)
+		if err != nil {
+			return err
+		}
+
+		data := []byte(response)
+
+		_, err = conn.Write(data)
+		if err != nil {
+			return err
+		}
 	}
-
-	message := string(buffer[:n])
-
-	log.Println("received: ", message)
-
-	response, err := commands.Process(message)
-	if err != nil {
-		return err
-	}
-
-	data := []byte(response)
-
-	_, err = conn.Write(data)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
