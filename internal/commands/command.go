@@ -18,7 +18,7 @@ func Process(message string, s *store.Store) (string, error) {
 	switch command {
 
 	case "PING":
-		return "PONG", nil
+		return "PONG\n", nil
 
 	case "GET":
 		if len(parts) < 2 {
