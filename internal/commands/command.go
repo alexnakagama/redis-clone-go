@@ -30,7 +30,7 @@ func Process(message string, s *store.Store) (string, error) {
 			return "ERROR: value not found\n", nil
 		}
 
-		return value, nil
+		return value + "\n", nil
 
 	case "SET":
 		if len(parts) < 3 {
