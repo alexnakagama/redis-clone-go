@@ -38,10 +38,12 @@ func (s *Server) Start() error {
 
 		log.Println("client connected")
 
-		err = handleConnection(conn, s.store)
-		if err != nil {
-			log.Println(err)
-		}
+		go func(conn net.Conn) {
+			err := handleConnection(conn, s.store)
+			if err != nil {
+				log.Println(err)
+			}
+		}(conn)
 	}
 }
 
