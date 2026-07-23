@@ -34,7 +34,7 @@ func Process(message string, s *store.Store) (string, error) {
 
 	case "SET":
 		if len(parts) < 3 {
-			return "ERROR: missing key\n", nil
+			return "ERROR: missing arguments\n", nil
 		}
 
 		err := s.Set(parts[1], parts[2])
@@ -50,12 +50,11 @@ func Process(message string, s *store.Store) (string, error) {
 			return "ERROR: missing key\n", nil
 		}
 
-		exists := s.Delete(parts[1])
-		if !exists {
-			return "ERROR: key not found\n", nil
+		if s.Delete(parts[1]) {
+			return "OK\n", nil
 		}
 
-		return "OK\n", nil
+		return "(nil)\n", nil
 
 	default:
 		return "ERROR: unknown command\n", nil
