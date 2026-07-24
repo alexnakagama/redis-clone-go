@@ -56,6 +56,19 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "(nil)\n", false, nil
 
+	case "EXISTS":
+		if len(parts) < 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		exists := st.Exists(parts[1])
+
+		if exists {
+			return "1\n", false, nil
+		}
+
+		return "0\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
