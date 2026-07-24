@@ -56,9 +56,5 @@ func (s *Store) Exists(key string) bool {
 
 	_, exists := s.data[key]
 
-	if !exists {
-		return false
-	}
-
-	return true
+	return exists
 }
