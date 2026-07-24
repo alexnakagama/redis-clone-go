@@ -58,3 +58,12 @@ func (s *Store) Exists(key string) bool {
 
 	return exists
 }
+
+func (s *Store) DbSize() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	length := len(s.data)
+
+	return length
+}
