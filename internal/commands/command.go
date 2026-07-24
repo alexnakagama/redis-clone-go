@@ -81,6 +81,14 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return response + "\n", false, nil
 
+	case "CLEAR":
+		if len(parts) > 1 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		st.Clear()
+		return "OK\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
