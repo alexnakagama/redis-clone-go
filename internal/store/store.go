@@ -76,3 +76,16 @@ func (s *Store) Clear() {
 
 	s.data = newMap
 }
+
+func (s *Store) Keys() []string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	sKeys := make([]string, 0, len(s.data))
+
+	for key := range s.data {
+		sKeys = append(sKeys, key)
+	}
+
+	return sKeys
+}
