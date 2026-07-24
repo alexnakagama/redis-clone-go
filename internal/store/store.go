@@ -51,5 +51,14 @@ func (s *Store) Delete(key string) bool {
 }
 
 func (s *Store) Exists(key string) bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
+	_, exists := s.data[key]
+
+	if !exists {
+		return false
+	}
+
+	return true
 }
