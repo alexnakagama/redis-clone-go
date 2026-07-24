@@ -59,7 +59,7 @@ func (s *Store) Exists(key string) bool {
 	return exists
 }
 
-func (s *Store) DbSize() int {
+func (s *Store) Size() int {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 

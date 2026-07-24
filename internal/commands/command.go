@@ -70,8 +70,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "0\n", false, nil
 
-	case "DBSIZE":
-		length := st.DbSize()
+	case "SIZE":
+		length := st.Size()
 
 		if length == 0 {
 			return "0\n", false, nil
