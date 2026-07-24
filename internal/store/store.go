@@ -49,3 +49,7 @@ func (s *Store) Delete(key string) bool {
 	delete(s.data, key)
 	return true
 }
+
+func (s *Store) Exists(key string) bool {
+
+}
