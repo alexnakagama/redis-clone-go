@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/alexnakagama/redis-clone-go/internal/store"
@@ -68,6 +69,17 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		}
 
 		return "0\n", false, nil
+
+	case "DBSIZE":
+		length := st.DbSize()
+
+		if length == 0 {
+			return "0\n", false, nil
+		}
+
+		response := strconv.Itoa(length)
+
+		return response + "\n", false, nil
 
 	case "QUIT":
 		return "OK\n", true, nil
