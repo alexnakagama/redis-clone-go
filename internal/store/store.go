@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 	"sync"
+
+	"golang.org/x/text"
 )
 
 type Store struct {
@@ -150,4 +152,20 @@ func (s *Store) Append(key string, text string) (int, error) {
 	s.data[key] = value + text
 
 	return len(s.data[key]), nil
+}
+
+func (s *Store) Rename(key string, newKey string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	value, exists := s.data[key]
+	if !exists {
+		return errors.New("key not found")
+	}
+
+	s.data[newKey] = value
+
+	delete(s.data, key)
+
+	return nil
 }
