@@ -115,7 +115,7 @@ func (s *Store) Incr(key string) (int, error) {
 	return intValue, nil
 }
 
-func (s *Store) DECR(key string) (int, error) {
+func (s *Store) Decr(key string) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
