@@ -171,3 +171,7 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 
 	return nil
 }
+
+func (s *Store) MGet(keys []string) []string {
+
+}
