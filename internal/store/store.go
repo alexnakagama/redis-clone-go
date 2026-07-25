@@ -137,3 +137,7 @@ func (s *Store) Decr(key string) (int, error) {
 
 	return intValue, nil
 }
+
+func (s *Store) Append(text string) (int, error) {
+
+}
