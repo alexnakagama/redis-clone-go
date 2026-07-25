@@ -4,8 +4,6 @@ import (
 	"errors"
 	"strconv"
 	"sync"
-
-	"golang.org/x/text"
 )
 
 type Store struct {
