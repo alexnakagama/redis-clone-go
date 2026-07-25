@@ -152,18 +152,18 @@ func (s *Store) Append(key string, text string) (int, error) {
 	return len(s.data[key]), nil
 }
 
-func (s *Store) Rename(key string, newKey string) error {
+func (s *Store) Rename(oldKey string, newKey string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	value, exists := s.data[key]
+	value, exists := s.data[oldKey]
 	if !exists {
 		return errors.New("key not found")
 	}
 
 	s.data[newKey] = value
 
-	delete(s.data, key)
+	delete(s.data, oldKey)
 
 	return nil
 }

@@ -138,6 +138,18 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(length) + "\n", false, nil
 
+	case "RENAME":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		err := st.Rename(parts[1], parts[2])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return "OK\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
