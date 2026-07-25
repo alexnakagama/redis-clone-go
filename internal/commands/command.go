@@ -126,6 +126,18 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(intValue) + "\n", false, nil
 
+	case "APPEND":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		length, err := st.Append(parts[1], parts[2])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return strconv.Itoa(length) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
