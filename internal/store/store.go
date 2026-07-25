@@ -138,6 +138,16 @@ func (s *Store) Decr(key string) (int, error) {
 	return intValue, nil
 }
 
-func (s *Store) Append(text string) (int, error) {
+func (s *Store) Append(key string, text string) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
+	value, exists := s.data[key]
+	if !exists {
+		return 0, errors.New("key not found")
+	}
+
+	s.data[key] = value + text
+
+	return len(s.data[key]), nil
 }
