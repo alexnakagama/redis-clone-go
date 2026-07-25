@@ -102,6 +102,18 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strings.Join(sKeys, "\n"), false, nil
 
+	case "INCR":
+		if len(parts) < 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		intValue, err := st.Incr(parts[1])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return strconv.Itoa(intValue) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
