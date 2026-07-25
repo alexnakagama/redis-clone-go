@@ -114,3 +114,26 @@ func (s *Store) Incr(key string) (int, error) {
 
 	return intValue, nil
 }
+
+func (s *Store) DECR(key string) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	value, exists := s.data[key]
+	if !exists {
+		return 0, errors.New("key not found")
+	}
+
+	intValue, err := strconv.Atoi(value)
+	if err != nil {
+		return 0, err
+	}
+
+	intValue -= 1
+
+	strValue := strconv.Itoa(intValue)
+
+	s.data[key] = strValue
+
+	return intValue, nil
+}
