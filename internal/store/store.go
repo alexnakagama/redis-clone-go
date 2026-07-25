@@ -161,6 +161,10 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 		return errors.New("key not found")
 	}
 
+	if oldKey == newKey {
+		return nil
+	}
+
 	s.data[newKey] = value
 
 	delete(s.data, oldKey)
