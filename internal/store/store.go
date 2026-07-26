@@ -173,5 +173,21 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 }
 
 func (s *Store) MGet(keys []string) []string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
+	values := make([]string, 0, len(keys))
+
+	for _, key := range keys {
+		value, exists := s.data[key]
+
+		if !exists {
+			values = append(values, "(nil)")
+			continue
+		}
+
+		values = append(values, value)
+	}
+
+	return values
 }
