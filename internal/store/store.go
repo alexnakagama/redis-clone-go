@@ -191,3 +191,8 @@ func (s *Store) MGet(keys []string) []string {
 
 	return values
 }
+
+func (s *Store) StrLen(key string) (int, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+}
