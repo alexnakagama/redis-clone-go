@@ -4,16 +4,19 @@ import (
 	"errors"
 	"strconv"
 	"sync"
+	"time"
 )
 
 type Store struct {
 	mu   sync.RWMutex
 	data map[string]string
+	exp  map[string]time.Time
 }
 
 func NewStore() *Store {
 	return &Store{
 		data: make(map[string]string),
+		exp:  make(map[string]time.Time),
 	}
 }
 
