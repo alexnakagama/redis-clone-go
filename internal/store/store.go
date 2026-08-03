@@ -205,3 +205,7 @@ func (s *Store) StrLen(key string) (int, error) {
 
 	return length, nil
 }
+
+func (s *Store) Expire() {
+
+}
