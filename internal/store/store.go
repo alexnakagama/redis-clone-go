@@ -20,6 +20,18 @@ func NewStore() *Store {
 	}
 }
 
+func (s *Store) removeExpired(key string) {
+	expireTime, exists := s.exp[key]
+	if !exists {
+		return
+	}
+
+	if time.Now().After(expireTime) {
+		delete(s.data, key)
+		delete(s.exp, key)
+	}
+}
+
 func (s *Store) Set(key, value string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
