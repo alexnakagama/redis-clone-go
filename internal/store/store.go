@@ -41,8 +41,10 @@ func (s *Store) Set(key, value string) error {
 }
 
 func (s *Store) Get(key string) (string, bool) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
 
 	value, exists := s.data[key]
 
@@ -57,6 +59,8 @@ func (s *Store) Delete(key string) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.removeExpired(key)
+
 	_, exists := s.data[key]
 
 	if !exists {
@@ -68,8 +72,10 @@ func (s *Store) Delete(key string) bool {
 }
 
 func (s *Store) Exists(key string) bool {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
 
 	_, exists := s.data[key]
 
@@ -111,6 +117,8 @@ func (s *Store) Incr(key string) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.removeExpired(key)
+
 	value, exists := s.data[key]
 	if !exists {
 		return 0, errors.New("key not found")
@@ -134,6 +142,8 @@ func (s *Store) Decr(key string) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.removeExpired(key)
+
 	value, exists := s.data[key]
 	if !exists {
 		return 0, errors.New("key not found")
@@ -156,6 +166,8 @@ func (s *Store) Decr(key string) (int, error) {
 func (s *Store) Append(key string, text string) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	s.removeExpired(key)
 
 	value, exists := s.data[key]
 	if !exists {
@@ -188,12 +200,14 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 }
 
 func (s *Store) MGet(keys []string) []string {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	values := make([]string, 0, len(keys))
 
 	for _, key := range keys {
+		s.removeExpired(key)
+
 		value, exists := s.data[key]
 
 		if !exists {
@@ -208,8 +222,10 @@ func (s *Store) MGet(keys []string) []string {
 }
 
 func (s *Store) StrLen(key string) (int, error) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
 
 	value, exists := s.data[key]
 	if !exists {
@@ -225,6 +241,8 @@ func (s *Store) Expire(key string, seconds int) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.removeExpired(key)
+
 	_, exists := s.data[key]
 	if !exists {
 		return false
@@ -236,8 +254,10 @@ func (s *Store) Expire(key string, seconds int) bool {
 }
 
 func (s *Store) TTL(key string) (int, error) {
-	s.mu.RLock()
+	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	s.removeExpired(key)
 
 	expireTime, exists := s.exp[key]
 	if !exists {
