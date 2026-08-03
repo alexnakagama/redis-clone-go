@@ -150,6 +150,13 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "OK\n", false, nil
 
+	case "MGET":
+		if len(parts) == 1 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		keys := parts[:1]
+
 	case "QUIT":
 		return "OK\n", true, nil
 
