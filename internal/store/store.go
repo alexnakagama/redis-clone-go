@@ -222,3 +222,7 @@ func (s *Store) Expire(key string, seconds int) bool {
 
 	return true
 }
+
+func (s *Store) TTL(key string) (int, error) {
+
+}
