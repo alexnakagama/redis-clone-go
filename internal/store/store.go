@@ -224,5 +224,19 @@ func (s *Store) Expire(key string, seconds int) bool {
 }
 
 func (s *Store) TTL(key string) (int, error) {
+	s.mu.RLock()
+	defer s.mu.Unlock()
 
+	expireTime, exists := s.exp[key]
+	if !exists {
+		return -1, nil
+	}
+
+	seconds := int(time.Until(expireTime).Seconds())
+
+	if seconds < 0 {
+		return -2, nil
+	}
+
+	return seconds, nil
 }
