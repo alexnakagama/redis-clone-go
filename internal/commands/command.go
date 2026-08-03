@@ -176,6 +176,24 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(length) + "\n", false, nil
 
+	case "EXPIRE":
+		if len(parts) != 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		seconds, err := strconv.Atoi(parts[2])
+		if err != nil {
+			return "ERROR: invalid time\n", false, nil
+		}
+
+		ok := st.Expire(parts[1], seconds)
+
+		if ok {
+			return "1\n", false, nil
+		}
+
+		return "0\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
