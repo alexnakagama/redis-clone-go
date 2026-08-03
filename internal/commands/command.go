@@ -155,7 +155,13 @@ func Process(message string, st *store.Store) (string, bool, error) {
 			return "ERROR: missing arguments\n", false, nil
 		}
 
-		keys := parts[:1]
+		keys := parts[1:]
+
+		values := st.MGet(keys)
+
+		response := strings.Join(values, "\n")
+
+		return response + "\n", false, nil
 
 	case "QUIT":
 		return "OK\n", true, nil
