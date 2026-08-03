@@ -195,4 +195,13 @@ func (s *Store) MGet(keys []string) []string {
 func (s *Store) StrLen(key string) (int, error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
+
+	value, exists := s.data[key]
+	if !exists {
+		return 0, errors.New("key noy found")
+	}
+
+	length := len(value)
+
+	return length, nil
 }
