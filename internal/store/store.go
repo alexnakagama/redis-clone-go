@@ -209,6 +209,16 @@ func (s *Store) StrLen(key string) (int, error) {
 	return length, nil
 }
 
-func (s *Store) Expire() {
+func (s *Store) Expire(key string, seconds int) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
+	_, exists := s.data[key]
+	if !exists {
+		return false
+	}
+
+	s.exp[key] = time.Now().Add(time.Duration(seconds) * time.Second)
+
+	return true
 }
