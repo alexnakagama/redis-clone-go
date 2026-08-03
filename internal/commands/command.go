@@ -7,6 +7,7 @@ import (
 	"github.com/alexnakagama/redis-clone-go/internal/store"
 )
 
+// This function process all the functions defined in the store.go file
 func Process(message string, st *store.Store) (string, bool, error) {
 	parts := strings.Fields(message)
 
