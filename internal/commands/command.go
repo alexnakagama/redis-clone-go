@@ -194,6 +194,18 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "0\n", false, nil
 
+	case "TTL":
+		if len(parts) < 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		seconds, err := st.TTL(parts[1])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return strconv.Itoa(seconds) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
