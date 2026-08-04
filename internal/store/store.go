@@ -290,6 +290,26 @@ func (s *Store) MSet(pairs []string) {
 func (s *Store) IncrBy(key string, num int) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return 0, errors.New("key not found")
+	}
+
+	intValue, err := strconv.Atoi(value)
+	if err != nil {
+		return 0, err
+	}
+
+	intValue += num
+
+	strValue := strconv.Itoa(intValue)
+
+	s.data[key] = strValue
+
+	return intValue, nil
 }
 
 func (s *Store) DecrBy(key string, num int) (int, error) {
