@@ -272,3 +272,9 @@ func (s *Store) TTL(key string) (int, error) {
 
 	return seconds, nil
 }
+
+func (s *Store) MSet(args []string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+}
