@@ -286,3 +286,8 @@ func (s *Store) MSet(pairs []string) {
 		delete(s.exp, key)
 	}
 }
+
+func (s *Store) IncrBy(key string, num int) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+}
