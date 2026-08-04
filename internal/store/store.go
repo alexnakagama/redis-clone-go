@@ -286,3 +286,7 @@ func (s *Store) DecrBy(key string, num int) (int, error) {
 
 	return intValue, nil
 }
+
+func (s *Store) Incr(key string) (int, error) {
+	return s.IncrBy(key, 1)
+}
