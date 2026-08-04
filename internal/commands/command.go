@@ -219,6 +219,23 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "OK\n", false, nil
 
+	case "INCRBY":
+		if len(parts) != 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		num, err := strconv.Atoi(parts[2])
+		if err != nil {
+			return "ERROR: value is not an integer\n", false, nil
+		}
+
+		value, err := st.IncrBy(parts[1], num)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return strconv.Itoa(value) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
