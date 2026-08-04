@@ -113,56 +113,6 @@ func (s *Store) Keys() []string {
 	return sKeys
 }
 
-func (s *Store) Incr(key string) (int, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	s.removeExpired(key)
-
-	value, exists := s.data[key]
-	if !exists {
-		return 0, errors.New("key not found")
-	}
-
-	intValue, err := strconv.Atoi(value)
-	if err != nil {
-		return 0, err
-	}
-
-	intValue += 1
-
-	strValue := strconv.Itoa(intValue)
-
-	s.data[key] = strValue
-
-	return intValue, nil
-}
-
-func (s *Store) Decr(key string) (int, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	s.removeExpired(key)
-
-	value, exists := s.data[key]
-	if !exists {
-		return 0, errors.New("key not found")
-	}
-
-	intValue, err := strconv.Atoi(value)
-	if err != nil {
-		return 0, err
-	}
-
-	intValue -= 1
-
-	strValue := strconv.Itoa(intValue)
-
-	s.data[key] = strValue
-
-	return intValue, nil
-}
-
 func (s *Store) Append(key string, text string) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -335,5 +285,4 @@ func (s *Store) DecrBy(key string, num int) (int, error) {
 	s.data[key] = strValue
 
 	return intValue, nil
-
 }
