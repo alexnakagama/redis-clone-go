@@ -291,3 +291,8 @@ func (s *Store) IncrBy(key string, num int) (int, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 }
+
+func (s *Store) DecrBy(key string, num int) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+}
