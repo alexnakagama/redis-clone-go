@@ -206,6 +206,19 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(seconds) + "\n", false, nil
 
+	case "MSET":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if (len(parts)-1)%2 != 0 {
+			return "ERROR: arguments must be key value pairs\n", false, nil
+		}
+
+		st.MSet(parts[1:])
+
+		return "OK\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
