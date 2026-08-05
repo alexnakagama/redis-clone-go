@@ -428,9 +428,16 @@ func (s *Store) Touch(keys []string) int {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	counter := 0
+
 	for _, key := range keys {
 		s.removeExpired(key)
 
 		_, exists := s.data[key]
+		if exists {
+			counter += 1
+		}
 	}
+
+	return counter
 }
