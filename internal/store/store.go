@@ -314,6 +314,11 @@ func (s *Store) GetSet(key string, newValue string) string {
 	return oldValue
 }
 
+func (s *Store) GetDel(key string) string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+}
+
 func (s *Store) Persist(key string) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
