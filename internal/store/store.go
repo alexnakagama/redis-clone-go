@@ -459,7 +459,24 @@ func (s *Store) Copy(src string, dest string) bool {
 	return true
 }
 
-func (s *Store) GetEx(key string, option string, second int) string {
+func (s *Store) GetEx(key string, option string, seconds int) string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return "(nil)"
+	}
+
+	switch option {
+	case "EX":
+		s.exp[key] = time.Now().Add(time.Duration(seconds) * time.Second)
+
+	case "PERSIST":
+		delete(s.exp, key)
+	}
+
+	return value
 }
