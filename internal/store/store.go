@@ -2,6 +2,7 @@ package store
 
 import (
 	"errors"
+	"math/rand/v2"
 	"strconv"
 	"sync"
 	"time"
@@ -348,4 +349,23 @@ func (s *Store) Persist(key string) bool {
 	delete(s.exp, key)
 
 	return true
+}
+
+func (s *Store) RandomKey() string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	randomKeys := []string{}
+
+	for key := range s.data {
+		randomKeys = append(randomKeys, key)
+	}
+
+	if len(randomKeys) == 0 {
+		return "(nil)"
+	}
+
+	index := rand.IntN(len(randomKeys))
+
+	return randomKeys[index]
 }
