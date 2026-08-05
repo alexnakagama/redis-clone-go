@@ -295,5 +295,21 @@ func (s *Store) Decr(key string) (int, error) {
 	return s.DecrBy(key, -1)
 }
 
-func (s *Store) GetSet(key string, value string) (string, error) {
+func (s *Store) GetSet(key string, newValue string) string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	oldValue := "(nil)"
+
+	value, exists := s.data[key]
+	if exists {
+		oldValue = value
+	}
+
+	s.data[key] = newValue
+	delete(s.exp, key)
+
+	return oldValue
 }
