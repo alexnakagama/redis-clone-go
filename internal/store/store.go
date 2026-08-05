@@ -317,6 +317,18 @@ func (s *Store) GetSet(key string, newValue string) string {
 func (s *Store) GetDel(key string) string {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	oldValue, exists := s.data[key]
+	if !exists {
+		return "(nil)"
+	}
+
+	delete(s.data, key)
+	delete(s.exp, key)
+
+	return oldValue
 }
 
 func (s *Store) Persist(key string) bool {
