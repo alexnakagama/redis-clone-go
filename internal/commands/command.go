@@ -262,6 +262,15 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return oldValue + "\n", false, nil
 
+	case "GETDEL":
+		if len(parts) != 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		oldValue := st.GetDel(parts[1])
+
+		return oldValue + "\n", false, nil
+
 	case "PERSIST":
 		if len(parts) != 2 {
 			return "ERROR: missing arguments\n", false, nil
