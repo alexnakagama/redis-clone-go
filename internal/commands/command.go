@@ -311,10 +311,45 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "0\n", false, nil
 
+	case "GETEX":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		option := strings.ToUpper(parts[2])
+
+		if option == "EX" {
+			if len(parts) != 4 {
+				return "ERROR: missing seconds\n", false, nil
+			}
+
+			seconds, err := strconv.Atoi(parts[3])
+			if err != nil {
+				return "ERROR: invalid seconds\n", false, nil
+			}
+
+			value := st.GetEx(parts[1], option, seconds)
+
+			return value + "\n", false, nil
+		}
+
+		if option == "PERSIST" {
+			if len(parts) != 3 {
+				return "ERROR: too many arguments\n", false, nil
+			}
+
+			value := st.GetEx(parts[1], option, 0)
+
+			return value + "\n", false, nil
+		}
+
+		return "ERROR: invalid option\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
 	default:
+
 		return "ERROR: unknown command\n", false, nil
 	}
 }
