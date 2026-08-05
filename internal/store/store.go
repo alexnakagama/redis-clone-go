@@ -199,7 +199,7 @@ func (s *Store) StrLen(key string) (int, error) {
 
 	value, exists := s.data[key]
 	if !exists {
-		return 0, errors.New("key noy found")
+		return 0, errors.New("key not found")
 	}
 
 	length := len(value)
