@@ -423,3 +423,14 @@ func (s *Store) RandomKey() string {
 
 	return randomKeys[index]
 }
+
+func (s *Store) Touch(keys []string) int {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	for _, key := range keys {
+		s.removeExpired(key)
+
+		_, exists := s.data[key]
+	}
+}
