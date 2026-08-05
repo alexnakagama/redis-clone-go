@@ -355,6 +355,8 @@ func (s *Store) Persist(key string) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.removeExpired(key)
+
 	_, dataExists := s.data[key]
 	if !dataExists {
 		return false
