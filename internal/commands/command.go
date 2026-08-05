@@ -291,6 +291,15 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return st.RandomKey() + "\n", false, nil
 
+	case "TOUCH":
+		if len(parts) == 1 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		counter := st.Touch(parts[1:])
+
+		return strconv.Itoa(counter) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
