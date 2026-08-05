@@ -260,7 +260,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		oldValue := st.GetSet(parts[1], parts[2])
 
-		return oldValue, false, nil
+		return oldValue + "\n", false, nil
 
 	case "QUIT":
 		return "OK\n", true, nil
