@@ -300,6 +300,19 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(counter) + "\n", false, nil
 
+	case "COPY":
+		if len(parts) != 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		copied := st.Copy(parts[1], parts[2])
+
+		if copied == false {
+			return "0\n", false, nil
+		}
+
+		return "1\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
