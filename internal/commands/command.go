@@ -253,6 +253,15 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(value) + "\n", false, nil
 
+	case "GETSET":
+		if len(parts) != 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		oldValue := st.GetSet(parts[1], parts[2])
+
+		return oldValue, false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
