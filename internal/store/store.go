@@ -158,6 +158,8 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 		return nil
 	}
 
+	delete(s.exp, newKey)
+
 	s.data[newKey] = value
 
 	expireTime, exists := s.exp[oldKey]
