@@ -97,9 +97,8 @@ func (s *Store) Clear() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	newMap := make(map[string]string)
-
-	s.data = newMap
+	s.data = make(map[string]string)
+	s.exp = make(map[string]time.Time)
 }
 
 func (s *Store) Keys() []string {
