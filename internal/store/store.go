@@ -313,3 +313,8 @@ func (s *Store) GetSet(key string, newValue string) string {
 
 	return oldValue
 }
+
+func (s *Store) Persist(key string) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+}
