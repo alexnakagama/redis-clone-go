@@ -262,6 +262,19 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return oldValue + "\n", false, nil
 
+	case "PERSIST":
+		if len(parts) != 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		ok := st.Persist(parts[1])
+
+		if !ok {
+			return "0\n", false, nil
+		}
+
+		return "1\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
