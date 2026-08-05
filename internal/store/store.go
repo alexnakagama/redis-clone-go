@@ -25,14 +25,17 @@ func NewStore() *Store {
 		defer ticker.Stop()
 
 		for range ticker.C {
+			now := time.Now()
+
 			s.mu.Lock()
 
 			for key, expireTime := range s.exp {
-				if time.Now().After(expireTime) {
+				if now.After(expireTime) {
 					delete(s.data, key)
 					delete(s.exp, key)
 				}
 			}
+
 			s.mu.Unlock()
 		}
 	}()
