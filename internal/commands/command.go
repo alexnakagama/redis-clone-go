@@ -284,6 +284,13 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "1\n", false, nil
 
+	case "RANDOMKEY":
+		if len(parts) != 1 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		return st.RandomKey() + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
