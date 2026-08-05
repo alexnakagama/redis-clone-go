@@ -102,12 +102,19 @@ func (s *Store) Clear() {
 }
 
 func (s *Store) Keys() []string {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	sKeys := make([]string, 0, len(s.data))
 
 	for key := range s.data {
+		s.removeExpired(key)
+
+		_, exists := s.data[key]
+		if !exists {
+			continue
+		}
+
 		sKeys = append(sKeys, key)
 	}
 
