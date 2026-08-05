@@ -38,6 +38,8 @@ func (s *Store) Set(key, value string) error {
 	defer s.mu.Unlock()
 
 	s.data[key] = value
+	delete(s.exp, key)
+
 	return nil
 }
 
