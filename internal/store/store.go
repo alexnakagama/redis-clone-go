@@ -441,3 +441,20 @@ func (s *Store) Touch(keys []string) int {
 
 	return counter
 }
+
+func (s *Store) Copy(src string, dest string) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(src)
+
+	value, exists := s.data[src]
+	if !exists {
+		return false
+	}
+
+	s.data[dest] = value
+	delete(s.exp, dest)
+
+	return true
+}
