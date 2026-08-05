@@ -85,8 +85,12 @@ func (s *Store) Exists(key string) bool {
 }
 
 func (s *Store) Size() int {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	for key := range s.data {
+		s.removeExpired(key)
+	}
 
 	length := len(s.data)
 
