@@ -15,10 +15,29 @@ type Store struct {
 }
 
 func NewStore() *Store {
-	return &Store{
+	s := &Store{
 		data: make(map[string]string),
 		exp:  make(map[string]time.Time),
 	}
+
+	go func() {
+		ticker := time.NewTicker(1 * time.Second)
+		defer ticker.Stop()
+
+		for range ticker.C {
+			s.mu.Lock()
+
+			for key, expireTime := range s.exp {
+				if time.Now().After(expireTime) {
+					delete(s.data, key)
+					delete(s.exp, key)
+				}
+			}
+			s.mu.Unlock()
+		}
+	}()
+
+	return s
 }
 
 func (s *Store) removeExpired(key string) {
