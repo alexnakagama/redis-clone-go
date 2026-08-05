@@ -135,6 +135,8 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
+	s.removeExpired(oldKey)
+
 	value, exists := s.data[oldKey]
 	if !exists {
 		return errors.New("key not found")
@@ -145,6 +147,12 @@ func (s *Store) Rename(oldKey string, newKey string) error {
 	}
 
 	s.data[newKey] = value
+
+	expireTime, exists := s.exp[oldKey]
+	if exists {
+		s.exp[newKey] = expireTime
+		delete(s.exp, oldKey)
+	}
 
 	delete(s.data, oldKey)
 
