@@ -458,3 +458,8 @@ func (s *Store) Copy(src string, dest string) bool {
 
 	return true
 }
+
+func (s *Store) GetEx(key string, option string, second int) string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+}
