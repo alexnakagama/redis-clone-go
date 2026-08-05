@@ -307,7 +307,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		copied := st.Copy(parts[1], parts[2])
 
-		if copied == false {
+		if !copied {
 			return "0\n", false, nil
 		}
 
