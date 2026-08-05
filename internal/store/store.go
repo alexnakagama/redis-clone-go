@@ -69,6 +69,7 @@ func (s *Store) Delete(key string) bool {
 	}
 
 	delete(s.data, key)
+	delete(s.exp, key)
 	return true
 }
 
