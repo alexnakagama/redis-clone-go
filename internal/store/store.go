@@ -379,6 +379,13 @@ func (s *Store) RandomKey() string {
 	randomKeys := []string{}
 
 	for key := range s.data {
+		s.removeExpired(key)
+
+		_, exists := s.data[key]
+		if !exists {
+			continue
+		}
+
 		randomKeys = append(randomKeys, key)
 	}
 
