@@ -333,16 +333,26 @@ func (s *Store) IncrBy(key string, num int) (int, error) {
 		return 0, errors.New("key not found")
 	}
 
-	intValue, err := strconv.Atoi(value)
+	if value.Type != "string" {
+		return 0, errors.New("type mismatch")
+	}
+
+	strValue, ok := value.Data.(string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	intValue, err := strconv.Atoi(strValue)
 	if err != nil {
 		return 0, err
 	}
 
 	intValue += num
 
-	strValue := strconv.Itoa(intValue)
+	strValue = strconv.Itoa(intValue)
 
-	s.data[key] = strValue
+	value.Data = strValue
+	s.data[key] = value
 
 	return intValue, nil
 }
