@@ -419,7 +419,7 @@ func (s *Store) GetSet(key string, newValue string) string {
 	return oldValue
 }
 
-func (s *Store) GetDel(key string) string {
+func (s *Store) GetDel(key string) (string, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -427,13 +427,22 @@ func (s *Store) GetDel(key string) string {
 
 	oldValue, exists := s.data[key]
 	if !exists {
-		return "(nil)"
+		return "", errors.New("key not found")
+	}
+
+	if oldValue.Type != "string" {
+		return "", errors.New("type mismatch")
+	}
+
+	strValue, ok := oldValue.Data.(string)
+	if !ok {
+		return "", errors.New("type mismatch")
 	}
 
 	delete(s.data, key)
 	delete(s.exp, key)
 
-	return oldValue
+	return strValue, nil
 }
 
 func (s *Store) Persist(key string) bool {
