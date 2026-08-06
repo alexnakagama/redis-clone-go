@@ -361,11 +361,21 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "0\n", false, nil
 
+	case "TYPE":
+		if len(parts) < 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 2 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		return st.Type(parts[1]) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
 	default:
-
 		return "ERROR: unknown command\n", false, nil
 	}
 }
