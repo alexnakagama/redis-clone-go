@@ -482,5 +482,18 @@ func (s *Store) GetEx(key string, option string, seconds int) string {
 }
 
 func (s *Store) SetNX(key, value string) bool {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	_, exists := s.data[key]
+	if exists {
+		return false
+	}
+
+	s.data[key] = value
+	delete(s.exp, key)
+
 	return true
 }
