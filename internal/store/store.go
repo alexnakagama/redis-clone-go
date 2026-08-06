@@ -480,3 +480,7 @@ func (s *Store) GetEx(key string, option string, seconds int) string {
 
 	return value
 }
+
+func (s *Store) SetNX(key, value string) bool {
+	return true
+}
