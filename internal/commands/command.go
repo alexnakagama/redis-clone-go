@@ -345,6 +345,22 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "ERROR: invalid option\n", false, nil
 
+	case "SETNX":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 3 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		c := st.SetNX(parts[1], parts[2])
+		if c {
+			return "1\n", false, nil
+		}
+
+		return "0\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
