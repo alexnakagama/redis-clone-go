@@ -497,3 +497,17 @@ func (s *Store) SetNX(key, value string) bool {
 
 	return true
 }
+
+func (s *Store) Type(key string) string {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	_, exists := s.data[key]
+	if !exists {
+		return "none"
+	}
+
+	return "string"
+}
