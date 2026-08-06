@@ -8,15 +8,20 @@ import (
 	"time"
 )
 
+type Value struct {
+	Type string
+	Data any
+}
+
 type Store struct {
 	mu   sync.RWMutex
-	data map[string]string
+	data map[string]Value
 	exp  map[string]time.Time
 }
 
 func NewStore() *Store {
 	s := &Store{
-		data: make(map[string]string),
+		data: make(map[string]Value),
 		exp:  make(map[string]time.Time),
 	}
 
@@ -59,7 +64,11 @@ func (s *Store) Set(key, value string) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	s.data[key] = value
+	s.data[key] = Value{
+		Type: "string",
+		Data: value,
+	}
+
 	delete(s.exp, key)
 
 	return nil
@@ -77,7 +86,16 @@ func (s *Store) Get(key string) (string, bool) {
 		return "", false
 	}
 
-	return value, true
+	if value.Type != "string" {
+		return "", false
+	}
+
+	strValue, ok := value.Data.(string)
+	if !ok {
+		return "", false
+	}
+
+	return strValue, true
 }
 
 func (s *Store) Delete(key string) bool {
@@ -94,6 +112,7 @@ func (s *Store) Delete(key string) bool {
 
 	delete(s.data, key)
 	delete(s.exp, key)
+
 	return true
 }
 
@@ -125,7 +144,7 @@ func (s *Store) Clear() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	s.data = make(map[string]string)
+	s.data = make(map[string]Value)
 	s.exp = make(map[string]time.Time)
 }
 
@@ -160,9 +179,22 @@ func (s *Store) Append(key string, text string) (int, error) {
 		return 0, errors.New("key not found")
 	}
 
-	s.data[key] = value + text
+	if value.Type != "string" {
+		return 0, errors.New("type mismatch")
+	}
 
-	return len(s.data[key]), nil
+	strValue, ok := value.Data.(string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	strValue += text
+
+	value.Data = strValue
+
+	s.data[key] = value
+
+	return len(strValue), nil
 }
 
 func (s *Store) Rename(oldKey string, newKey string) error {
@@ -228,9 +260,16 @@ func (s *Store) StrLen(key string) (int, error) {
 		return 0, errors.New("key not found")
 	}
 
-	length := len(value)
+	if value.Type != "string" {
+		return 0, errors.New("type mismatch")
+	}
 
-	return length, nil
+	strValue, ok := value.Data.(string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	return len(strValue), nil
 }
 
 func (s *Store) Expire(key string, seconds int) bool {
