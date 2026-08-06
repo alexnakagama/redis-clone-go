@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/rand/v2"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -547,12 +548,17 @@ func (s *Store) GetEx(key string, option string, seconds int) (string, error) {
 		return "", errors.New("type mismatch")
 	}
 
+	option = strings.ToUpper(option)
+
 	switch option {
 	case "EX":
 		s.exp[key] = time.Now().Add(time.Duration(seconds) * time.Second)
 
 	case "PERSIST":
 		delete(s.exp, key)
+
+	default:
+		return "", errors.New("unknown option")
 	}
 
 	return strValue, nil
