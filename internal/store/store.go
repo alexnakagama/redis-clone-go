@@ -527,7 +527,7 @@ func (s *Store) Copy(src string, dest string) bool {
 	return true
 }
 
-func (s *Store) GetEx(key string, option string, seconds int) string {
+func (s *Store) GetEx(key string, option string, seconds int) (string, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -535,7 +535,16 @@ func (s *Store) GetEx(key string, option string, seconds int) string {
 
 	value, exists := s.data[key]
 	if !exists {
-		return "(nil)"
+		return "", errors.New("key not found")
+	}
+
+	if value.Type != "string" {
+		return "", errors.New("type mismatch")
+	}
+
+	strValue, ok := value.Data.(string)
+	if !ok {
+		return "", errors.New("type mismatch")
 	}
 
 	switch option {
@@ -546,7 +555,7 @@ func (s *Store) GetEx(key string, option string, seconds int) string {
 		delete(s.exp, key)
 	}
 
-	return value
+	return strValue, nil
 }
 
 func (s *Store) SetNX(key, value string) bool {
