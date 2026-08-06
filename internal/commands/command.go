@@ -319,6 +319,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 			return "ERROR: missing arguments\n", false, nil
 		}
 
+		key := parts[1]
 		option := strings.ToUpper(parts[2])
 
 		if option == "EX" {
@@ -331,7 +332,10 @@ func Process(message string, st *store.Store) (string, bool, error) {
 				return "ERROR: invalid seconds\n", false, nil
 			}
 
-			value := st.GetEx(parts[1], option, seconds)
+			value, err := st.GetEx(key, option, seconds)
+			if err != nil {
+				return "ERROR: " + err.Error() + "\n", false, nil
+			}
 
 			return value + "\n", false, nil
 		}
@@ -341,7 +345,10 @@ func Process(message string, st *store.Store) (string, bool, error) {
 				return "ERROR: too many arguments\n", false, nil
 			}
 
-			value := st.GetEx(parts[1], option, 0)
+			value, err := st.GetEx(key, option, 0)
+			if err != nil {
+				return "ERROR: " + err.Error() + "\n", false, nil
+			}
 
 			return value + "\n", false, nil
 		}

@@ -548,8 +548,6 @@ func (s *Store) GetEx(key string, option string, seconds int) (string, error) {
 		return "", errors.New("type mismatch")
 	}
 
-	option = strings.ToUpper(option)
-
 	switch option {
 	case "EX":
 		s.exp[key] = time.Now().Add(time.Duration(seconds) * time.Second)
