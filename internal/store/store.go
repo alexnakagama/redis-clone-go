@@ -411,7 +411,7 @@ func (s *Store) Incr(key string) (int, error) {
 }
 
 func (s *Store) Decr(key string) (int, error) {
-	return s.DecrBy(key, -1)
+	return s.DecrBy(key, 1)
 }
 
 func (s *Store) GetSet(key string, newValue string) (string, error) {
