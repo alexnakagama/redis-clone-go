@@ -615,10 +615,10 @@ func (s *Store) Type(key string) string {
 
 	s.removeExpired(key)
 
-	_, exists := s.data[key]
+	value, exists := s.data[key]
 	if !exists {
 		return "none"
 	}
 
-	return "string"
+	return value.Type
 }
