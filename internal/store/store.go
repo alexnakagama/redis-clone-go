@@ -238,18 +238,18 @@ func (s *Store) MGet(keys []string) []string {
 
 		value, exists := s.data[key]
 		if !exists {
-			values = append(values, "(nil)")
+			values = append(values, "key doesnt exists")
 			continue
 		}
 
 		if value.Type != "string" {
-			values = append(values, "(nil)")
+			values = append(values, "type mismatch")
 			continue
 		}
 
 		strValue, ok := value.Data.(string)
 		if !ok {
-			values = append(values, "(nil)")
+			values = append(values, "type mismatch")
 			continue
 		}
 
