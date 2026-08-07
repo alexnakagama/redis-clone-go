@@ -511,7 +511,7 @@ func (s *Store) RandomKey() string {
 	}
 
 	if len(randomKeys) == 0 {
-		return "(nil)"
+		return ""
 	}
 
 	index := rand.IntN(len(randomKeys))
