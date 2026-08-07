@@ -324,7 +324,11 @@ func (s *Store) MSet(pairs []string) {
 
 	for i := 0; i < len(pairs); i += 2 {
 		key := pairs[i]
-		value := pairs[i+1]
+
+		value := Value{
+			Type: "string",
+			Data: pairs[i+1],
+		}
 
 		s.data[key] = value
 
