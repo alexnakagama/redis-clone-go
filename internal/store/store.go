@@ -420,10 +420,23 @@ func (s *Store) GetSet(key string, newValue string) string {
 
 	value, exists := s.data[key]
 	if exists {
-		oldValue = value
+		if value.Type != "string" {
+			return "(nil)"
+		}
+
+		strValue, ok := value.Data.(string)
+		if !ok {
+			return "(nil)"
+		}
+
+		oldValue = strValue
 	}
 
-	s.data[key] = newValue
+	s.data[key] = Value{
+		Type: "string",
+		Data: newValue,
+	}
+
 	delete(s.exp, key)
 
 	return oldValue
