@@ -584,7 +584,7 @@ func (s *Store) GetEx(key string, option string, seconds int) (string, error) {
 	return strValue, nil
 }
 
-func (s *Store) SetNX(key, value string) bool {
+func (s *Store) SetNX(key, valueI string) bool {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -595,7 +595,11 @@ func (s *Store) SetNX(key, value string) bool {
 		return false
 	}
 
-	s.data[key] = value
+	s.data[key] = Value{
+		Type: "string",
+		Data: valueI,
+	}
+
 	delete(s.exp, key)
 
 	return true
