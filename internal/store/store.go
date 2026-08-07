@@ -410,7 +410,7 @@ func (s *Store) Decr(key string) (int, error) {
 	return s.DecrBy(key, -1)
 }
 
-func (s *Store) GetSet(key string, newValue string) string {
+func (s *Store) GetSet(key string, newValue string) (string, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -421,12 +421,12 @@ func (s *Store) GetSet(key string, newValue string) string {
 	value, exists := s.data[key]
 	if exists {
 		if value.Type != "string" {
-			return "(nil)"
+			return "", errors.New("type mismatch")
 		}
 
 		strValue, ok := value.Data.(string)
 		if !ok {
-			return "(nil)"
+			return "", errors.New("type mismatch")
 		}
 
 		oldValue = strValue
@@ -439,7 +439,7 @@ func (s *Store) GetSet(key string, newValue string) string {
 
 	delete(s.exp, key)
 
-	return oldValue
+	return oldValue, nil
 }
 
 func (s *Store) GetDel(key string) (string, error) {

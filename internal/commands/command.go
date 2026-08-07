@@ -258,7 +258,10 @@ func Process(message string, st *store.Store) (string, bool, error) {
 			return "ERROR: missing arguments\n", false, nil
 		}
 
-		oldValue := st.GetSet(parts[1], parts[2])
+		oldValue, err := st.GetSet(parts[1], parts[2])
+		if err != nil {
+			return "ERROR: invalid arguments\n", false, nil
+		}
 
 		return oldValue + "\n", false, nil
 
