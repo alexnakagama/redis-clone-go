@@ -9,8 +9,6 @@ import (
 	"github.com/alexnakagama/redis-clone-go/internal/store"
 )
 
-
-
 type Server struct {
 	address  string
 	listener net.Listener
