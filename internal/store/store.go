@@ -237,14 +237,24 @@ func (s *Store) MGet(keys []string) []string {
 		s.removeExpired(key)
 
 		value, exists := s.data[key]
-
 		if !exists {
 			values = append(values, "(nil)")
 			continue
 		}
 
-		values = append(values, value)
-	}
+		if value.Type != "string" {
+			values = append(values, "(nil)")
+			continue
+		}
+
+		strValue, ok := value.Data.(string)
+		if !ok {
+			values = append(values, "(nil)")
+			continue
+		}
+
+		values = append(values, strValue)
+	}	
 
 	return values
 }
