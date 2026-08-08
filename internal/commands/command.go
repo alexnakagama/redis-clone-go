@@ -456,6 +456,24 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		}
 		
 		return first + "\n", false, nil
+
+	case "RPOP":
+		if len(parts) < 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 2 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		last, err := st.RPop(key)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return last + "\n", false, nil
 		
 	case "QUIT":
 		return "OK\n", true, nil
