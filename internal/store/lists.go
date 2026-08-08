@@ -136,4 +136,30 @@ func (s *Store) LPop(key string) (string, error) {
 }
 
 func (s *Store) RPop(key string) (string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return "", errors.New("key doesnt exists")
+	}
+
+	if value.Type != "list" {
+		return "", errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return "", errors.New("type mismatch")
+	}
+
+	last := list[len(list)-1]
+	list = list[:len(list)-1]
+
+	value.Data = list
+	s.data[key] = value
+
+	return last, nil
 }
