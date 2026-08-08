@@ -405,6 +405,23 @@ func Process(message string, st *store.Store) (string, bool, error) {
 	case "QUIT":
 		return "OK\n", true, nil
 
+	case "RPUSH":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		key := parts[1]
+		values := parts[2:]
+
+		length, err := st.RPush(key, values)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		strLen := strconv.Itoa(length)
+
+		return strLen + "\n", false, nil
+
 	default:
 		return "ERROR: unknown command\n", false, nil
 	}
