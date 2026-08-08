@@ -420,8 +420,12 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strLen + "\n", false, nil
 
 	case "LLEN":
-		if len(parts) != 2 {
+		if len(parts) < 2 {
 			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 2 {
+			return "ERROR: too many arguments\n", false, nil
 		}
 
 		key := parts[1]
