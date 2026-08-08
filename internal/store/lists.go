@@ -134,3 +134,6 @@ func (s *Store) LPop(key string) (string, error) {
 
 	return first, nil
 }
+
+func (s *Store) RPop(key string) (string, error) {
+}
