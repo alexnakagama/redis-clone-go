@@ -1,6 +1,9 @@
 package store
 
-import "errors"
+import (
+	"errors"
+	"slices"
+)
 
 func (s *Store) LPush(key string, values []string) (int, error) {
 	s.mu.Lock()
@@ -33,16 +36,12 @@ func (s *Store) LPush(key string, values []string) (int, error) {
 		return 0, errors.New("type mismtach")
 	}
 
-	newList := make([]string, 0, len(values)+len(list))
+	slices.Reverse(values)
 
-	for i := len(values) - 1; i >= 0; i-- {
-		newList = append(newList, values[i])
-	}
-
-	newList = append(newList, list...)
+	list = append(values, list...)
 
 	value.Data = list
 	s.data[key] = value
 
-	return len(newList), nil
+	return len(list), nil
 }
