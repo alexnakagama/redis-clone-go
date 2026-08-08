@@ -28,17 +28,50 @@ func (s *Store) LPush(key string, values []string) (int, error) {
 	}
 
 	if value.Type != "list" {
-		return 0, errors.New("type mismtach")
+		return 0, errors.New("type mismatch")
 	}
 
 	list, ok := value.Data.([]string)
 	if !ok {
-		return 0, errors.New("type mismtach")
+		return 0, errors.New("type mismatch")
 	}
 
 	slices.Reverse(values)
 
 	list = append(values, list...)
+
+	value.Data = list
+	s.data[key] = value
+
+	return len(list), nil
+}
+
+func (s *Store) RPush(key string, values []string) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		s.data[key] = Value{
+			Type: "list",
+			Data: values,
+		}
+		
+		return len(values), nil
+	}
+
+	if value.Type != "list" {
+		return 0, errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	list = append(list, values...)
 
 	value.Data = list
 	s.data[key] = value
