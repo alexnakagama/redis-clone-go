@@ -78,3 +78,26 @@ func (s *Store) RPush(key string, values []string) (int, error) {
 
 	return len(list), nil
 }
+
+func (s *Store) LLen(key string) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return 0, nil
+	}
+
+	if value.Type != "list" {
+		return 0, errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	return len(list), nil
+}
