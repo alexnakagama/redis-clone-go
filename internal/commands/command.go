@@ -402,9 +402,6 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strLen + "\n", false, nil
 
-	case "QUIT":
-		return "OK\n", true, nil
-
 	case "RPUSH":
 		if len(parts) < 3 {
 			return "ERROR: missing arguments\n", false, nil
@@ -421,6 +418,25 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		strLen := strconv.Itoa(length)
 
 		return strLen + "\n", false, nil
+
+	case "LLEN":
+		if len(parts) != 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		length, err := st.LLen(key)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		strLen := strconv.Itoa(length)
+
+		return strLen + "\n", false, nil
+		
+	case "QUIT":
+		return "OK\n", true, nil
 
 	default:
 		return "ERROR: unknown command\n", false, nil
