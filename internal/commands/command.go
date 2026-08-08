@@ -385,6 +385,23 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return st.Type(parts[1]) + "\n", false, nil
 
+	case "LPUSH":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		key := parts[1]
+		values := parts[2:]
+
+		length, err := st.LPush(key, values)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		strLen := strconv.Itoa(length)
+
+		return strLen + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
