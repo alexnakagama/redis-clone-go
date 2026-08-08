@@ -101,3 +101,6 @@ func (s *Store) LLen(key string) (int, error) {
 
 	return len(list), nil
 }
+
+func (s *Store) LPop(key string) string {
+}
