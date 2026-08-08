@@ -438,6 +438,24 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		strLen := strconv.Itoa(length)
 
 		return strLen + "\n", false, nil
+
+	case "LPOP":
+		if len(parts) < 2 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 2 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		first, err := st.LPop(key)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+		
+		return first + "\n", false, nil
 		
 	case "QUIT":
 		return "OK\n", true, nil
