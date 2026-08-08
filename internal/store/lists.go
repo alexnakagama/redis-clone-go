@@ -102,5 +102,35 @@ func (s *Store) LLen(key string) (int, error) {
 	return len(list), nil
 }
 
-func (s *Store) LPop(key string) string {
+func (s *Store) LPop(key string) (string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return "", errors.New("key doesnt exists")
+	}
+
+	if value.Type != "list" {
+		return "", errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return "", errors.New("type mismatch")
+	}
+
+	if len(list) == 0 {
+		return "(nil)", nil
+	}
+
+	first := list[0]
+	list = list[1:]
+
+	value.Data = list
+	s.data[key] = value
+
+	return first, nil
 }
