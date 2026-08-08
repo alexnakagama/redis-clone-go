@@ -163,3 +163,6 @@ func (s *Store) RPop(key string) (string, error) {
 
 	return last, nil
 }
+
+func (s *Store) LRange(key string, start, stop int) ([]string, error) {
+} 
