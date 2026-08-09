@@ -170,6 +170,10 @@ func (s *Store) LRange(key string, start, stop int) ([]string, error) {
 
 	s.removeExpired(key)
 
+	if start < 0 || stop < 0 {
+		return nil, errors.New("invalid index")
+	}
+
 	value, exists := s.data[key]
 	if !exists {
 		return nil, errors.New("key doesnt exists")
@@ -182,6 +186,14 @@ func (s *Store) LRange(key string, start, stop int) ([]string, error) {
 	list, ok := value.Data.([]string)
 	if !ok {
 		return nil, errors.New("type mismatch")
+	}
+
+	if start >= len(list) || start > stop {
+		return []string{}, nil
+	}
+
+	if stop >= len(list) {
+		stop = len(list) - 1
 	}
 
 	list = list[start:stop+1]
