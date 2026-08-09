@@ -474,7 +474,42 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		}
 
 		return last + "\n", false, nil
-		
+
+	case "LRANGE":
+		if len(parts) < 4 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 4 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		start, err := strconv.Atoi(parts[2]) 
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		stop, err := strconv.Atoi(parts[3]) 
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		list, err := st.LRange(key, start, stop)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		var response strings.Builder
+
+		for _, value := range list {
+			response.WriteString(value)
+			response.WriteByte('\n')
+		}
+
+		return response.String(), false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
