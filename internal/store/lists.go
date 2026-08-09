@@ -165,4 +165,22 @@ func (s *Store) RPop(key string) (string, error) {
 }
 
 func (s *Store) LRange(key string, start, stop int) ([]string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return nil, errors.New("key doesnt exists")
+	}
+
+	if value.Type != "list" {
+		return nil, errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return nil, errors.New("type mismatch")
+	}
 } 
