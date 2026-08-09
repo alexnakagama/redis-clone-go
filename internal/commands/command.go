@@ -508,12 +508,6 @@ func Process(message string, st *store.Store) (string, bool, error) {
 			response.WriteString(value)
 			response.WriteByte('\n')
 
-			// response.WriteString("Alex")
-			// response.WriteByte('\n')
-			// response.WriteString("Fran")
-			// response.WriteByte('\n')
-			// response.WriteString("Vero")
-
 			// output:
 			// Alex
 			// Fran
