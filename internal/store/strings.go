@@ -354,4 +354,3 @@ func (s *Store) SetNX(key, inputValue string) bool {
 
 	return true
 }
-
