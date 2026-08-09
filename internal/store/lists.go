@@ -200,3 +200,30 @@ func (s *Store) LRange(key string, start, stop int) ([]string, error) {
 
 	return list, nil
 } 
+
+func (s *Store) LIndex(key string, index int) (string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return "", errors.New("key not found")
+	}
+
+	if value.Type != "list" {
+		return "", errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return "", errors.New("type mismatch")
+	}
+
+	if index < 0 || index >= len(list) {
+		return "", errors.New("index out of range")
+	}
+
+	return list[index], nil
+}
