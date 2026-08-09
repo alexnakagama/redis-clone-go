@@ -501,6 +501,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 			return "ERROR: " + err.Error() + "\n", false, nil
 		}
 
+		// using strings.Builder so it builds the string progresively without creating a new string each time we concatenate
 		var response strings.Builder
 
 		for _, value := range list {
