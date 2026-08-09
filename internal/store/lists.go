@@ -183,4 +183,8 @@ func (s *Store) LRange(key string, start, stop int) ([]string, error) {
 	if !ok {
 		return nil, errors.New("type mismatch")
 	}
+
+	list = list[start:stop+1]
+
+	return list, nil
 } 
