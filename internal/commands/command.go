@@ -307,7 +307,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 	case "COPY":
 		if len(parts) != 3 {
-			return "ERROR: missing arguments\n", false, nil
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		if st.Copy(parts[1], parts[2]) {
@@ -370,19 +370,15 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return "0\n", false, nil
 
 	case "TYPE":
-		if len(parts) < 2 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 2 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 2 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		return st.Type(parts[1]) + "\n", false, nil
 
 	case "LPUSH":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		key := parts[1]
