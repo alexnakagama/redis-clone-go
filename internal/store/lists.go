@@ -299,3 +299,6 @@ func (s *Store) LTrim(key string, start, stop int) error {
 
 	return nil
 }
+
+func (s *Store) LPos(key, value string) (int, error) {
+}
