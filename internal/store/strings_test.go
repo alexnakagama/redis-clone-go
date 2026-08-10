@@ -40,3 +40,6 @@ func TestDelete(t *testing.T) {
 		t.Fatal("expected key to not exist")
 	}
 }
+
+func TestStrLen(t *testing.T) {
+}
