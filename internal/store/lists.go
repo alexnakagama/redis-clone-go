@@ -110,7 +110,7 @@ func (s *Store) LPop(key string) (string, error) {
 
 	value, exists := s.data[key]
 	if !exists {
-		return "", errors.New("key doesnt exists")
+		return "", errors.New("key not found")
 	}
 
 	if value.Type != "list" {
@@ -143,7 +143,7 @@ func (s *Store) RPop(key string) (string, error) {
 
 	value, exists := s.data[key]
 	if !exists {
-		return "", errors.New("key doesnt exists")
+		return "", errors.New("key not found")
 	}
 
 	if value.Type != "list" {
@@ -176,7 +176,7 @@ func (s *Store) LRange(key string, start, stop int) ([]string, error) {
 
 	value, exists := s.data[key]
 	if !exists {
-		return nil, errors.New("key doesnt exists")
+		return nil, errors.New("key not found")
 	}
 
 	if value.Type != "list" {
@@ -236,7 +236,7 @@ func (s *Store) LSet(key string, index int, newValue string) error {
 
 	value, exists := s.data[key]
 	if !exists {
-		return errors.New("key doesnt exists")
+		return errors.New("key not found")
 	}
 
 	if value.Type != "list" {
@@ -268,7 +268,7 @@ func (s *Store) LTrim(key string, start, stop int) error {
 
 	value, exists := s.data[key]
 	if !exists {
-		return errors.New("key doesnt exists")
+		return errors.New("key not found")
 	}
 
 	if value.Type != "list" {
@@ -300,5 +300,31 @@ func (s *Store) LTrim(key string, start, stop int) error {
 	return nil
 }
 
-func (s *Store) LPos(key, value string) (int, error) {
+func (s *Store) LPos(key, target string) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	valueReceived, exists := s.data[key]
+	if !exists {
+		return 0, errors.New("key not found")
+	}
+
+	if valueReceived.Type != "list" {
+		return 0, errors.New("type mismatch")
+	}
+
+	list, ok := valueReceived.Data.([]string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	for i, value := range list {
+		if value == target {
+			return i, nil
+		}
+	}
+
+	return -1, nil
 }
