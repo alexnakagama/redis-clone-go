@@ -206,8 +206,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strconv.Itoa(seconds) + "\n", false, nil
 
 	case "MSET":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		if (len(parts)-1)%2 != 0 {
@@ -220,7 +220,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 	case "INCRBY":
 		if len(parts) != 3 {
-			return "ERROR: missing arguments\n", false, nil
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		num, err := strconv.Atoi(parts[2])
