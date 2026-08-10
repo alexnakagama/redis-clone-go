@@ -58,8 +58,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return "(nil)\n", false, nil
 
 	case "EXISTS":
-		if len(parts) < 2 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 2 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		exists := st.Exists(parts[1])
@@ -127,8 +127,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strconv.Itoa(intValue) + "\n", false, nil
 
 	case "APPEND":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		length, err := st.Append(parts[1], parts[2])
@@ -139,8 +139,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strconv.Itoa(length) + "\n", false, nil
 
 	case "RENAME":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		err := st.Rename(parts[1], parts[2])
@@ -177,7 +177,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 	case "EXPIRE":
 		if len(parts) != 3 {
-			return "ERROR: missing arguments\n", false, nil
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		seconds, err := strconv.Atoi(parts[2])
