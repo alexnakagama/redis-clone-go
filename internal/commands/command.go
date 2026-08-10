@@ -590,12 +590,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return "OK\n", false, nil
 
 	case "LPOS":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 3 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		key := parts[1]
