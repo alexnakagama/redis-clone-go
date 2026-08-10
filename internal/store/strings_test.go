@@ -41,6 +41,33 @@ func TestDelete(t *testing.T) {
 	}
 }
 
+func TestAppend(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	length, err := store.Append("name", "a")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if length != 5 {
+		t.Fatalf("expected length 5 returned: %d", length)
+	}
+
+	value, exists := store.Get("name")
+	if !exists {
+		t.Fatal("expected key to exist")
+	}
+
+	if value != "alexa" {
+		t.Fatalf("expected value alexa, returned: %s", value)
+	}
+}
+
 func TestStrLen(t *testing.T) {
 	store := NewStore()
 
@@ -91,7 +118,7 @@ func TestIncrBy(t *testing.T) {
 	}
 
 	if num != 21 {
-		t.Fatalf("expected 21 retured: %d", num)
+		t.Fatalf("expected 21 returned: %d", num)
 	}
 }
 
