@@ -266,7 +266,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 	case "GETDEL":
 		if len(parts) != 2 {
-			return "ERROR: missing arguments\n", false, nil
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		value, err := st.GetDel(parts[1])
@@ -278,7 +278,7 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 	case "PERSIST":
 		if len(parts) != 2 {
-			return "ERROR: missing arguments\n", false, nil
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		ok := st.Persist(parts[1])
