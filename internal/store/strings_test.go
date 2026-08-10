@@ -108,7 +108,7 @@ func TestDecr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if num != 19 {
+	if num != 17 {
 		t.Fatalf("Expected age 17 returned: %d", num)
 	}
 }
