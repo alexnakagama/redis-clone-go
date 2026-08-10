@@ -394,8 +394,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strLen + "\n", false, nil
 
 	case "RPUSH":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		key := parts[1]
