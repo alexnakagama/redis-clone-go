@@ -103,7 +103,7 @@ func TestDecr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	num, err := store.Incr("age")
+	num, err := store.Decr("age")
 	if err != nil {
 		t.Fatal(err)
 	}
