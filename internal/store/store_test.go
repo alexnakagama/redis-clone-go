@@ -27,4 +27,15 @@ func TestExists(t *testing.T) {
 }
 
 func TestSize(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	length := store.Size()
+	if length != 1 {
+		t.Fatalf("expected length 1 returned: %d", length)
+	}
 }
