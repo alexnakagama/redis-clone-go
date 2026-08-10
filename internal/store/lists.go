@@ -229,4 +229,33 @@ func (s *Store) LIndex(key string, index int) (string, error) {
 }
 
 func (s *Store) LSet(key string, index int, newValue string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return errors.New("key doesnt exists")
+	}
+
+	if value.Type != "list" {
+		return errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return errors.New("type mismatch")
+	}
+
+	if index < 0 || index >= len(list) {
+		return errors.New("index out of range")
+	}
+
+	list[index] = newValue
+	
+	value.Data = list
+	s.data[key] = value
+
+	return nil
 }
