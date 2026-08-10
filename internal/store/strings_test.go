@@ -60,4 +60,19 @@ func TestStrLen(t *testing.T) {
 }
 
 func TestStrLenEmpty(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	length, err := store.StrLen("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if length != 0 {
+		t.Fatalf("expected length 0 returned: %d", length)
+	}
 }
