@@ -261,4 +261,41 @@ func (s *Store) LSet(key string, index int, newValue string) error {
 }
 
 func (s *Store) LTrim(key string, start, stop int) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return errors.New("key doesnt exists")
+	}
+
+	if value.Type != "list" {
+		return errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return errors.New("type mismatch")
+	}
+
+	if start < 0 || start >= len(list) {
+		return errors.New("index out of range")
+	}
+
+	if stop < 0 {
+		return errors.New("index out of range")
+	}
+
+	if stop >= len(list) {
+		stop = len(list) - 1
+	}
+
+	list = list[start:stop+1]
+
+	value.Data = list
+	s.data[key] = value
+
+	return nil
 }
