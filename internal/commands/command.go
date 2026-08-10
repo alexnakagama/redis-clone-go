@@ -536,6 +536,31 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return value + "\n", false, nil
 
+	case "LSET":
+		if len(parts) < 4 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 4 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		index, err := strconv.Atoi(parts[2])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		value := parts[3]
+
+		err = st.LSet(key, index, value) 
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return "OK\n", false ,nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
