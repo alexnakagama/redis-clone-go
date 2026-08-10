@@ -109,6 +109,9 @@ func TestRename(t *testing.T) {
 	}
 }
 
+func TestCopy(t *testing.T) {
+}
+
 func TestType(t *testing.T) {
 	store := NewStore()
 
