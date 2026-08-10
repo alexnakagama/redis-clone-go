@@ -58,3 +58,6 @@ func TestStrLen(t *testing.T) {
 		t.Fatalf("expected length 4 returned: %d", length)
 	}
 }
+
+func TestStrLenEmpty(t *testing.T) {
+}
