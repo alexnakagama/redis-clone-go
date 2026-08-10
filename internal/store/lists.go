@@ -328,3 +328,6 @@ func (s *Store) LPos(key, target string) (int, error) {
 
 	return -1, nil
 }
+
+func (s *Store) LRem(key string, count int, target string) (int, error) {
+}
