@@ -259,3 +259,6 @@ func (s *Store) LSet(key string, index int, newValue string) error {
 
 	return nil
 }
+
+func (s *Store) LTrim(key string, start, stop int) error {
+}
