@@ -567,6 +567,27 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return strconv.Itoa(position) + "\n", false, nil
 
+	case "LREM":
+		if len(parts) != 4 {
+			return "ERROR: expected 4 arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		count, err := strconv.Atoi(parts[2])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		target := parts[3]
+
+		quantity, err := st.LRem(key, count, target) 
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return strconv.Itoa(quantity) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
