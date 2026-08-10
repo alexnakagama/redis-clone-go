@@ -39,3 +39,6 @@ func TestSize(t *testing.T) {
 		t.Fatalf("expected length 1 returned: %d", length)
 	}
 }
+
+func TestClear(t *testing.T) {
+}
