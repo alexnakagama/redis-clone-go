@@ -164,8 +164,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return response + "\n", false, nil
 
 	case "STRLEN":
-		if len(parts) < 2 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 2 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		length, err := st.StrLen(parts[1])
