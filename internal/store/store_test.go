@@ -55,3 +55,6 @@ func TestClear(t *testing.T) {
 		t.Fatal("expected to get nil")
 	}
 }
+
+func TestKeys(t *testing.T) {
+}
