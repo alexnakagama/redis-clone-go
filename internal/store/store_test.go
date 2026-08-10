@@ -36,7 +36,7 @@ func TestSize(t *testing.T) {
 
 	length := store.Size()
 	if length != 1 {
-		t.Fatalf("expected length 1 returned: %d", length)
+		t.Fatalf("expected length 1, got: %d", length)
 	}
 }
 
@@ -82,4 +82,29 @@ func TestKeys(t *testing.T) {
 }
 
 func TestRename(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = store.Rename("name", "username")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	value, exists := store.Get("username")
+	if !exists {
+		t.Fatal(err)
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	_, exists = store.Get("name")
+	if exists {
+		t.Fatal("expected name to not exist")
+	}
 }
