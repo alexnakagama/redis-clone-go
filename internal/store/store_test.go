@@ -110,4 +110,15 @@ func TestRename(t *testing.T) {
 }
 
 func TestType(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	theTypesiculusfilocus := store.Type("name") 
+	if theTypesiculusfilocus != "string" {
+		t.Fatalf("expected type to be string, got: %s", theTypesiculusfilocus)
+	}
 }
