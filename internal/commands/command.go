@@ -589,6 +589,25 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return "OK\n", false, nil
 
+	case "LPOS":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 3 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		key := parts[1]
+		target := parts[2]
+
+		position, err := st.LPos(key, target)
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		return strconv.Itoa(position) + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
