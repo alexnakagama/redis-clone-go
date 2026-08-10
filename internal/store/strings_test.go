@@ -77,6 +77,12 @@ func TestStrLenEmpty(t *testing.T) {
 	}
 }
 
+func TestIncrBy(t *testing.T) {
+}
+
+func TestDecrBy(t *testing.T) {
+}
+
 func TestIncr(t *testing.T) {
 	store := NewStore()
 
