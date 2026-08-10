@@ -78,9 +78,39 @@ func TestStrLenEmpty(t *testing.T) {
 }
 
 func TestIncrBy(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("age", "1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	num, err := store.IncrBy("age", 20)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if num != 21 {
+		t.Fatalf("expected 21 retured: %d", num)
+	}
 }
 
 func TestDecrBy(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("age", "30")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	num, err := store.DecrBy("age", 20)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if num != 10 {
+		t.Fatalf("expected 10 retured: %d", num)
+	}
 }
 
 func TestIncr(t *testing.T) {
