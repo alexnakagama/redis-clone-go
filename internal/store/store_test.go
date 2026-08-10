@@ -57,4 +57,26 @@ func TestClear(t *testing.T) {
 }
 
 func TestKeys(t *testing.T) {
+	store := NewStore()
+	
+	store.Set("name", "alex")
+	store.Set("age", "18")
+	store.Set("city", "buenos aires")
+
+	keys := store.Keys()
+	if len(keys) != 3 {
+		t.Fatalf("expected 3 keys, got %v", keys)
+	}
+
+	expected := map[string]bool{
+		"name": true,
+		"age": true,
+		"city": true,
+	}
+
+	for _, key := range keys {
+		if !expected[key] {
+			t.Fatalf("unexpected key: %s", key)
+		}
+	}
 }
