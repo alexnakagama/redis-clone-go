@@ -80,3 +80,6 @@ func TestKeys(t *testing.T) {
 		}
 	}
 }
+
+func TestRename(t *testing.T) {
+}
