@@ -108,3 +108,6 @@ func TestRename(t *testing.T) {
 		t.Fatal("expected name to not exist")
 	}
 }
+
+func TestType(t *testing.T) {
+}
