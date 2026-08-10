@@ -227,3 +227,6 @@ func (s *Store) LIndex(key string, index int) (string, error) {
 
 	return list[index], nil
 }
+
+func (s *Store) LSet(key string, index int, newValue string) error {
+}

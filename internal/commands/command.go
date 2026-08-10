@@ -516,6 +516,26 @@ func Process(message string, st *store.Store) (string, bool, error) {
 
 		return response.String(), false, nil
 
+	case "LINDEX":
+		if len(parts) < 3 {
+			return "ERROR: missing arguments\n", false, nil
+		}
+
+		if len(parts) > 3 {
+			return "ERROR: too many arguments\n", false, nil
+		}
+
+		key := parts[1]
+
+		index, err := strconv.Atoi(parts[2])
+		if err != nil {
+			return "ERROR: " + err.Error() + "\n", false, nil
+		}
+
+		value, err := st.LIndex(key, index)
+
+		return value + "\n", false, nil
+
 	case "QUIT":
 		return "OK\n", true, nil
 
