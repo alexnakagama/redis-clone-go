@@ -359,12 +359,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return "ERROR: invalid option\n", false, nil
 
 	case "SETNX":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 3 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		c := st.SetNX(parts[1], parts[2])
@@ -420,12 +416,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strLen + "\n", false, nil
 
 	case "LLEN":
-		if len(parts) < 2 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 2 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 2 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		key := parts[1]
@@ -440,12 +432,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strLen + "\n", false, nil
 
 	case "LPOP":
-		if len(parts) < 2 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 2 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 2 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		key := parts[1]
@@ -458,12 +446,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return first + "\n", false, nil
 
 	case "RPOP":
-		if len(parts) < 2 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 2 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 2 {
+			return "ERROR: expected 2 arguments\n", false, nil
 		}
 
 		key := parts[1]
@@ -476,12 +460,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return last + "\n", false, nil
 
 	case "LRANGE":
-		if len(parts) < 4 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 4 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 4 {
+			return "ERROR: expected 4 arguments\n", false, nil
 		}
 
 		key := parts[1]
@@ -517,12 +497,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return response.String(), false, nil
 
 	case "LINDEX":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 3 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		key := parts[1]
@@ -537,12 +513,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return value + "\n", false, nil
 
 	case "LSET":
-		if len(parts) < 4 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 4 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 4 {
+			return "ERROR: expected 4 arguments\n", false, nil
 		}
 
 		key := parts[1]
@@ -562,12 +534,8 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return "OK\n", false ,nil
 
 	case "LTRIM":
-		if len(parts) < 4 {
-			return "ERROR: missing arguments\n", false, nil
-		}
-
-		if len(parts) > 4 {
-			return "ERROR: too many arguments\n", false, nil
+		if len(parts) != 4 {
+			return "ERROR: expected 4 arguments\n", false, nil
 		}
 
 		key := parts[1]
