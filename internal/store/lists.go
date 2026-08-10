@@ -259,6 +259,3 @@ func (s *Store) LSet(key string, index int, newValue string) error {
 
 	return nil
 }
-
-func (s *Store) LPop(key string) (string, error) {
-}
