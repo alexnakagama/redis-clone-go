@@ -35,14 +35,13 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return value + "\n", false, nil
 
 	case "SET":
-		if len(parts) < 3 {
-			return "ERROR: missing arguments\n", false, nil
+		if len(parts) != 3 {
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		err := st.Set(parts[1], parts[2])
-
 		if err != nil {
-			return "ERROR: set failed\n", false, err
+			return "ERROR: " + err.Error() + "\n", false, err
 		}
 
 		return "OK\n", false, nil
