@@ -41,4 +41,17 @@ func TestSize(t *testing.T) {
 }
 
 func TestClear(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	store.Clear()
+
+	_, exists := store.Get("name")
+	if exists {
+		t.Fatal("expected to get nil")
+	}
 }
