@@ -330,4 +330,40 @@ func (s *Store) LPos(key, target string) (int, error) {
 }
 
 func (s *Store) LRem(key string, count int, target string) (int, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	s.removeExpired(key)
+
+	value, exists := s.data[key]
+	if !exists {
+		return 0, errors.New("key not found")
+	}
+
+	if value.Type != "list" {
+		return 0, errors.New("type mismatch")
+	}
+
+	list, ok := value.Data.([]string)
+	if !ok {
+		return 0, errors.New("type mismatch")
+	}
+
+	result := make([]string, 0, len(list))
+
+	removed := 0
+
+	for _, value := range list {
+		if value == target && removed < count {
+			removed++
+			continue
+		}
+
+		result = append(result, value)
+	}
+
+	value.Data = result
+	s.data[key] = value
+
+	return removed, nil
 }
