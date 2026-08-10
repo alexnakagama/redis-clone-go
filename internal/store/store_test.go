@@ -25,3 +25,6 @@ func TestExists(t *testing.T) {
 		t.Fatal("expected key to exist")
 	}
 }
+
+func TestSize(t *testing.T) {
+}
