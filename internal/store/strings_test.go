@@ -76,3 +76,6 @@ func TestStrLenEmpty(t *testing.T) {
 		t.Fatalf("expected length 0 returned: %d", length)
 	}
 }
+
+func TestIncr(t *testing.T) {
+}
