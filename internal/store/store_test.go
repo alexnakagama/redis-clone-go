@@ -13,4 +13,15 @@ func TestNewStore(t *testing.T) {
 }
 
 func TestExists(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	exists := store.Exists("name")
+	if !exists {
+		t.Fatal("expected key to exist")
+	}
 }
