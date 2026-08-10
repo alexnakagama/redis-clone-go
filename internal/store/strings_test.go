@@ -42,4 +42,19 @@ func TestDelete(t *testing.T) {
 }
 
 func TestStrLen(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	length, err := store.StrLen("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if length != 4 {
+		t.Fatal("expected to return 4")
+	}
 }
