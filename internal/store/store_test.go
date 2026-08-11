@@ -179,3 +179,5 @@ func TestExpire(t *testing.T) {
 		t.Fatalf("expected expire to return true")
 	}
 }
+
+func TestTTL(t *testing.T) {}
