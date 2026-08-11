@@ -221,4 +221,30 @@ func TestTTLWithExpire(t *testing.T) {
 	}
 }
 
-func TestPersist(t *testing.T) {}
+func TestPersist(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ok := store.Expire("name", 10)
+	if !ok {
+		t.Fatalf("expected expire to return true")
+	}
+
+	persist := store.Persist("name")
+	if !persist {
+		t.Fatalf("expected persist to return true")
+	}
+
+	ttl, err := store.TTL("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttl != -1 {
+		t.Fatalf("expected ttl to return -1, got: %d", ttl)
+	}
+}
