@@ -197,3 +197,5 @@ func TestTTL(t *testing.T) {
 		t.Fatalf("expected ttl to be -1, got: %d", ttl)
 	}
 }
+
+func TestTTLWithExpire(t *testing.T) {}
