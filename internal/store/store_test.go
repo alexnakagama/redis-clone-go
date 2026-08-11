@@ -220,3 +220,5 @@ func TestTTLWithExpire(t *testing.T) {
 		t.Fatalf("expected ttl to be between 0 and 10, got: %d", ttl)
 	}
 }
+
+func TestPersist(t *testing.T) {}
