@@ -198,4 +198,25 @@ func TestTTL(t *testing.T) {
 	}
 }
 
-func TestTTLWithExpire(t *testing.T) {}
+func TestTTLWithExpire(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ok := store.Expire("name", 10)
+	if !ok {
+		t.Fatalf("expected expire to return true")
+	}
+
+	ttl, err := store.TTL("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttl < 0 || ttl > 10 {
+		t.Fatalf("expected ttl to be between 0 and 10, got: %d", ttl)
+	}
+}
