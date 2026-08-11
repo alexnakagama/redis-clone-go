@@ -109,7 +109,20 @@ func TestRename(t *testing.T) {
 	}
 }
 
-func TestTouch(t *testing.T) {}
+func TestTouch(t *testing.T) {
+	store := NewStore()
+
+	store.Set("name", "alex")
+	store.Set("age", "18")
+	store.Set("city", "buenos aires")
+
+	keys := []string{"name", "age", "city"}
+
+	length := store.Touch(keys)
+	if length != 3 {
+		t.Fatalf("expected 3, got: %d", length)
+	}
+}
 
 func TestCopy(t *testing.T) {
 	store := NewStore()
