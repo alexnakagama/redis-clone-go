@@ -110,6 +110,26 @@ func TestRename(t *testing.T) {
 }
 
 func TestCopy(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	copied := store.Copy("name", "username")
+	if !copied {
+		t.Fatal("expected key to be copied")
+	}
+
+	value, err := store.GetDel("username")
+	if err != nil {
+		t.Fatalf("expected username to exist")
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
 }
 
 func TestType(t *testing.T) {
