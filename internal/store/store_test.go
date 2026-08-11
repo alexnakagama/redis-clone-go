@@ -130,6 +130,11 @@ func TestCopy(t *testing.T) {
 	if value != "alex" {
 		t.Fatalf("expected alex, got: %s", value)
 	}
+
+	_, exists := store.Get("name")
+	if !exists {
+		t.Fatal("expected original key to still exists")
+	}
 }
 
 func TestType(t *testing.T) {
