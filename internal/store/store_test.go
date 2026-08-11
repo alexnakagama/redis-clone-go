@@ -165,3 +165,5 @@ func TestType(t *testing.T) {
 		t.Fatalf("expected type to be string, got: %s", theTypesiculusfilocus)
 	}
 }
+
+func TestExpire(t *testing.T) {}
