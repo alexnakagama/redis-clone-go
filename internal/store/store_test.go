@@ -180,4 +180,20 @@ func TestExpire(t *testing.T) {
 	}
 }
 
-func TestTTL(t *testing.T) {}
+func TestTTL(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ttl, err := store.TTL("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttl != -1 {
+		t.Fatalf("expected ttl to be -1, got: %d", ttl)
+	}
+}
