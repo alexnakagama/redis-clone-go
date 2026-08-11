@@ -109,6 +109,8 @@ func TestRename(t *testing.T) {
 	}
 }
 
+func TestTouch(t *testing.T) {}
+
 func TestCopy(t *testing.T) {
 	store := NewStore()
 
