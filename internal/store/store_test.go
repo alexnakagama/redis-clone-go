@@ -166,4 +166,16 @@ func TestType(t *testing.T) {
 	}
 }
 
-func TestExpire(t *testing.T) {}
+func TestExpire(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ok := store.Expire("name", 30)
+	if !ok {
+		t.Fatalf("expected expire to return true")
+	}
+}
