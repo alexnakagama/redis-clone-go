@@ -277,3 +277,5 @@ func TestSetNXKeyExist(t *testing.T) {
 		t.Fatalf("expected alex, got: %s", value)
 	}
 }
+
+func TestGetSet(t *testing.T) {}
