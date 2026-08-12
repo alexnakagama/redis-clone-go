@@ -354,3 +354,5 @@ func TestGetExExpire(t *testing.T) {
 		t.Fatalf("expected expireTime to be between 0 and 10, got: %d", ttl)
 	}
 }
+
+func TestGetExPersist(t *testing.T) {}
