@@ -175,3 +175,5 @@ func TestDecr(t *testing.T) {
 		t.Fatalf("Expected age 17 returned: %d", num)
 	}
 }
+
+func TestGetM(t *testing.T) {}
