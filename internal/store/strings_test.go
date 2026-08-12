@@ -262,4 +262,18 @@ func TestSetNX(t *testing.T) {
 	}
 }
 
-func TestSetNXKeyExist(t *testing.T) {}
+func TestSetNXKeyExist(t *testing.T) {
+	store := NewStore()
+
+	store.Set("name", "alex")
+
+	ok := store.SetNX("name", "juan")
+	if ok {
+		t.Fatalf("expected SetNX to return false")
+	}
+
+	value, _ := store.Get("name")
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+}
