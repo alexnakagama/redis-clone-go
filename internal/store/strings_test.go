@@ -243,3 +243,5 @@ func TestGetDel(t *testing.T) {
 		t.Fatalf("expected key to not exist")
 	}
 }
+
+func TestSetNX(t *testing.T) {}
