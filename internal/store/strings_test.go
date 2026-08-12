@@ -176,4 +176,22 @@ func TestDecr(t *testing.T) {
 	}
 }
 
-func TestGetM(t *testing.T) {}
+func TestGetM(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	keys := []string{"name"}
+
+	values := store.MGet(keys)
+	if len(values) != 1 {
+		t.Fatalf("expected 1, got: %d", len(values))
+	}
+
+	if values[0] != "alex" {
+		t.Fatalf("expected alex, got: %s", values[0])
+	}
+}
