@@ -221,4 +221,25 @@ func TestMGetMultiple(t *testing.T) {
 	}
 }
 
-func TestGetDel(t *testing.T) {}
+func TestGetDel(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	value, err := store.GetDel("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	_, exists := store.Get("name")
+	if exists {
+		t.Fatalf("expected key to not exist")
+	}
+}
