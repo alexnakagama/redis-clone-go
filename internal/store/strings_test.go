@@ -328,4 +328,29 @@ func TestMSet(t *testing.T) {
 	}
 }
 
-func TestGetEx(t *testing.T) {}
+func TestGetExExpire(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	value, err := store.GetEx("name", "EX", 10)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	ttl, err := store.TTL("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttl < 0 || ttl > 10 {
+		t.Fatalf("expected expireTime to be between 0 and 10, got: %d", ttl)
+	}
+}
