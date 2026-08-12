@@ -278,4 +278,26 @@ func TestSetNXKeyExist(t *testing.T) {
 	}
 }
 
-func TestGetSet(t *testing.T) {}
+func TestGetSet(t *testing.T) {
+	store := NewStore()
+
+	store.Set("name", "alex")
+
+	value, err := store.GetSet("name", "juan")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	str, exists := store.Get("name")
+	if !exists {
+		t.Fatalf("expected key to exist")
+	}
+
+	if str != "juan" {
+		t.Fatalf("expected juan, got: %s", str)
+	}
+}
