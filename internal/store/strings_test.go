@@ -327,3 +327,5 @@ func TestMSet(t *testing.T) {
 		t.Fatalf("expected alex123, got: %s", value2)
 	}
 }
+
+func TestGetEx(t *testing.T) {}
