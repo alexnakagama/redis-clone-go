@@ -220,3 +220,5 @@ func TestMGetMultiple(t *testing.T) {
 		t.Fatalf("expected [alex mike], got: %v", values)
 	}
 }
+
+func TestGetDel(t *testing.T) {}
