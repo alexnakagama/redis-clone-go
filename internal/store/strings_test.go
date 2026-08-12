@@ -351,8 +351,38 @@ func TestGetExExpire(t *testing.T) {
 	}
 
 	if ttl < 0 || ttl > 10 {
-		t.Fatalf("expected expireTime to be between 0 and 10, got: %d", ttl)
+		t.Fatalf("expected ttl to be between 0 and 10, got: %d", ttl)
 	}
 }
 
-func TestGetExPersist(t *testing.T) {}
+func TestGetExPersist(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wasAdded := store.Expire("name", 10)
+	if !wasAdded {
+		t.Fatalf("expected to be true")
+	}
+
+	value, err := store.GetEx("name", "PERSIST", 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	ttl, err := store.TTL("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttl != -1 {
+		t.Fatalf("expected ttl to be -1, got: %d", ttl)
+	}
+}
