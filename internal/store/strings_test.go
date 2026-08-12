@@ -188,7 +188,7 @@ func TestMGet(t *testing.T) {
 
 	values := store.MGet(keys)
 	if len(values) != 1 {
-		t.Fatalf("expected 1, got: %d", len(values))
+		t.Fatalf("expected length 1, got: %d", len(values))
 	}
 
 	if values[0] != "alex" {
@@ -196,4 +196,27 @@ func TestMGet(t *testing.T) {
 	}
 }
 
-func TestMGetMultiple(t *testing.T) {}
+func TestMGetMultiple(t *testing.T) {
+	store := NewStore()
+
+	err := store.Set("name", "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = store.Set("username", "mike")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	keys := []string{"name", "username"}
+
+	values := store.MGet(keys)
+	if len(values) != 2 {
+		t.Fatalf("expected length 2, got: %d", len(values))
+	}
+
+	if values[0] != "alex" || values[1] != "mike" {
+		t.Fatalf("expected [alex mike], got: %v", values)
+	}
+}
