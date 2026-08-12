@@ -302,4 +302,28 @@ func TestGetSet(t *testing.T) {
 	}
 }
 
-func TestMSet(t *testing.T) {}
+func TestMSet(t *testing.T) {
+	store := NewStore()
+
+	pairs := []string{"name", "alex", "username", "alex123"}
+
+	store.MSet(pairs)
+
+	value, exists := store.Get("name")
+	if !exists {
+		t.Fatalf("expected name to exist")
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	value2, exists := store.Get("username")
+	if !exists {
+		t.Fatalf("expected username to exist")
+	}
+
+	if value2 != "alex123" {
+		t.Fatalf("expected alex123, got: %s", value2)
+	}
+}
