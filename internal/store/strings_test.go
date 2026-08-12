@@ -176,7 +176,7 @@ func TestDecr(t *testing.T) {
 	}
 }
 
-func TestGetM(t *testing.T) {
+func TestMGet(t *testing.T) {
 	store := NewStore()
 
 	err := store.Set("name", "alex")
@@ -195,3 +195,5 @@ func TestGetM(t *testing.T) {
 		t.Fatalf("expected alex, got: %s", values[0])
 	}
 }
+
+func TestMGetMultiple(t *testing.T) {}
