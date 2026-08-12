@@ -301,5 +301,3 @@ func TestGetSet(t *testing.T) {
 		t.Fatalf("expected juan, got: %s", str)
 	}
 }
-
-func TestGetSetMissingKey(t *testing.T) {}
