@@ -280,14 +280,39 @@ func TestLPos(t *testing.T) {
 	}
 }
 
-// TODO
 func TestLRem(t *testing.T) {
 	store := NewStore()
 
-	names := []string{"alex", "jose", "fran"}
+	names := []string{"alex", "jose", "alex", "fran", "alex"}
 
 	_, err := store.RPush("name", names)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	eliminated, err := store.LRem("name", 2, "alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if eliminated != 2 {
+		t.Fatalf("expected 2, got: %d", eliminated)
+	}
+
+	list, err := store.LRange("name", 0, 2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if list[0] != "jose" {
+		t.Fatalf("expected jose, got: %s", list[0])
+	}
+
+	if list[1] != "fran" {
+		t.Fatalf("expected fran, got: %s", list[1])
+	}
+
+	if list[2] != "alex" {
+		t.Fatalf("expected alex, got: %s", list[2])
 	}
 }
