@@ -124,4 +124,31 @@ func TestLPop(t *testing.T) {
 	}
 }
 
-func TestRPop(t *testing.T) {}
+func TestRPop(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	deletedValue, err := store.RPop("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if deletedValue != "jose" {
+		t.Fatalf("expected jose, got: %s", deletedValue)
+	}
+
+	length, err := store.LLen("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if length != 1 {
+		t.Fatalf("expected 1, got: %d", length)
+	}
+}
