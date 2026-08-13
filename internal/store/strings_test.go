@@ -64,7 +64,7 @@ func TestAppend(t *testing.T) {
 	}
 
 	if value != "alexa" {
-		t.Fatalf("expected value alexa, returned: %s", value)
+		t.Fatalf("expected value alexa, got: %s", value)
 	}
 }
 
