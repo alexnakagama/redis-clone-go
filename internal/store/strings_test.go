@@ -136,7 +136,7 @@ func TestDecrBy(t *testing.T) {
 	}
 
 	if num != 10 {
-		t.Fatalf("expected 10 retured: %d", num)
+		t.Fatalf("expected 10, got: %d", num)
 	}
 }
 
