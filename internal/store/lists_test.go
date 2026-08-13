@@ -230,3 +230,5 @@ func TestLSet(t *testing.T) {
 		t.Fatalf("expected fran, got: %s", list[0])
 	}
 }
+
+func TestLTrim(t *testing.T) {}
