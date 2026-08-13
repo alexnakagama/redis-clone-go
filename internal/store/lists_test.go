@@ -74,3 +74,5 @@ func TestRPush(t *testing.T) {
 		t.Fatalf("expected juan, got: %s", list[1])
 	}
 }
+
+func TestLLen(t *testing.T) {}
