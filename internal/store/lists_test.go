@@ -177,4 +177,31 @@ func TestLRange(t *testing.T) {
 	}
 }
 
-func TestLIndex(t *testing.T) {}
+func TestLIndex(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	value, err := store.LIndex("name", 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if value != "alex" {
+		t.Fatalf("expected alex, got: %s", value)
+	}
+
+	otherValue, err := store.LIndex("name", 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if otherValue != "jose" {
+		t.Fatalf("expected jose, got: %s", otherValue)
+	}
+}
