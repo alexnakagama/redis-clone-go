@@ -279,3 +279,5 @@ func TestLPos(t *testing.T) {
 		t.Fatalf("expected 2, got: %d", position)
 	}
 }
+
+func TestLRem(t *testing.T) {}
