@@ -231,4 +231,31 @@ func TestLSet(t *testing.T) {
 	}
 }
 
-func TestLTrim(t *testing.T) {}
+func TestLTrim(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose", "fran", "manu"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = store.LTrim("name", 0, 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	list, err := store.LRange("name", 0, 2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if list[0] != "alex" {
+		t.Fatalf("expected alex, got: %s", list[0])
+	}
+
+	if list[1] != "jose" {
+		t.Fatalf("expected jose, got: %s", list[1])
+	}
+}
