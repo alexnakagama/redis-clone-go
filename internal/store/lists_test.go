@@ -94,3 +94,5 @@ func TestLLen(t *testing.T) {
 		t.Fatalf("expected 2, got: %d", length)
 	}
 }
+
+func TestLPop(t *testing.T) {}
