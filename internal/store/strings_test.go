@@ -100,7 +100,7 @@ func TestStrLenEmpty(t *testing.T) {
 	}
 
 	if length != 0 {
-		t.Fatalf("expected length 0 returned: %d", length)
+		t.Fatalf("expected length 0, got: %d", length)
 	}
 }
 
