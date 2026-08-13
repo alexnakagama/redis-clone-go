@@ -153,4 +153,26 @@ func TestRPop(t *testing.T) {
 	}
 }
 
-func TestLRange(t *testing.T) {}
+func TestLRange(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose", "juan"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	list, err := store.LRange("name", 0, 1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if list[0] != "alex" {
+		t.Fatalf("expected alex, got: %s", list[0])
+	}
+
+	if list[1] != "jose" {
+		t.Fatalf("expected jose, got: %s", list[1])
+	}
+}
