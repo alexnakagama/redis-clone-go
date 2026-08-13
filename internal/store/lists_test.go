@@ -29,7 +29,7 @@ func TestLPush(t *testing.T) {
 		t.Fatalf("expected 3, got: %d", length)
 	}
 
-	list, err := store.LRange("name", 0, 3)
+	list, err := store.LRange("name", 0, 2)
 	if err != nil {
 		t.Fatal(err)
 	}
