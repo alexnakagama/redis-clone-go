@@ -75,4 +75,22 @@ func TestRPush(t *testing.T) {
 	}
 }
 
-func TestLLen(t *testing.T) {}
+func TestLLen(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	length, err := store.LLen("name")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if length != 2 {
+		t.Fatalf("expected 2, got: %d", length)
+	}
+}
