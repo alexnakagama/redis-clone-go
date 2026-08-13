@@ -82,7 +82,7 @@ func TestStrLen(t *testing.T) {
 	}
 
 	if length != 4 {
-		t.Fatalf("expected length 4 returned: %d", length)
+		t.Fatalf("expected length 4, got: %d", length)
 	}
 }
 
