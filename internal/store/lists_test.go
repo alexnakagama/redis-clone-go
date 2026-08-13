@@ -205,3 +205,5 @@ func TestLIndex(t *testing.T) {
 		t.Fatalf("expected jose, got: %s", otherValue)
 	}
 }
+
+func TestLSet(t *testing.T) {}
