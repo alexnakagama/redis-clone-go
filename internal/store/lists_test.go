@@ -260,4 +260,22 @@ func TestLTrim(t *testing.T) {
 	}
 }
 
-func TestLPos(t *testing.T) {}
+func TestLPos(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose", "fran"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	position, err := store.LPos("name", "fran")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if position != 2 {
+		t.Fatalf("expected 2, got: %d", position)
+	}
+}
