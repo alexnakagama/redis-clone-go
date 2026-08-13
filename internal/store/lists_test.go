@@ -259,3 +259,5 @@ func TestLTrim(t *testing.T) {
 		t.Fatalf("expected jose, got: %s", list[1])
 	}
 }
+
+func TestLPos(t *testing.T) {}
