@@ -280,4 +280,14 @@ func TestLPos(t *testing.T) {
 	}
 }
 
-func TestLRem(t *testing.T) {}
+// TODO
+func TestLRem(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose", "fran"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
