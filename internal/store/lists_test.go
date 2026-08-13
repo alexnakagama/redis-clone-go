@@ -96,3 +96,5 @@ func TestLLen(t *testing.T) {
 }
 
 func TestLPop(t *testing.T) {}
+
+func TestRPop(t *testing.T) {}
