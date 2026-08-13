@@ -18,7 +18,7 @@ func TestSetGet(t *testing.T) {
 	}
 
 	if value != "alex" {
-		t.Fatalf("expected alex got: %s", value)
+		t.Fatalf("expected alex, got: %s", value)
 	}
 }
 
@@ -154,7 +154,7 @@ func TestIncr(t *testing.T) {
 	}
 
 	if num != 19 {
-		t.Fatalf("Expected age 19 returned: %d", num)
+		t.Fatalf("Expected age 19, got: %d", num)
 	}
 }
 
