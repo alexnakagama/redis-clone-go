@@ -176,3 +176,5 @@ func TestLRange(t *testing.T) {
 		t.Fatalf("expected jose, got: %s", list[1])
 	}
 }
+
+func TestLIndex(t *testing.T) {}
