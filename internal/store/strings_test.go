@@ -55,7 +55,7 @@ func TestAppend(t *testing.T) {
 	}
 
 	if length != 5 {
-		t.Fatalf("expected length 5 returned: %d", length)
+		t.Fatalf("expected length 5, got: %d", length)
 	}
 
 	value, exists := store.Get("name")
