@@ -152,3 +152,5 @@ func TestRPop(t *testing.T) {
 		t.Fatalf("expected 1, got: %d", length)
 	}
 }
+
+func TestLRange(t *testing.T) {}
