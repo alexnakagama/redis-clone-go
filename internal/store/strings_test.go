@@ -172,7 +172,7 @@ func TestDecr(t *testing.T) {
 	}
 
 	if num != 17 {
-		t.Fatalf("Expected age 17 returned: %d", num)
+		t.Fatalf("Expected age 17, got: %d", num)
 	}
 }
 
