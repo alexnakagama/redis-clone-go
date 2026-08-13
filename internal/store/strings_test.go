@@ -118,7 +118,7 @@ func TestIncrBy(t *testing.T) {
 	}
 
 	if num != 21 {
-		t.Fatalf("expected 21 returned: %d", num)
+		t.Fatalf("expected 21, got: %d", num)
 	}
 }
 
