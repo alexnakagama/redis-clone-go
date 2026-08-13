@@ -206,4 +206,27 @@ func TestLIndex(t *testing.T) {
 	}
 }
 
-func TestLSet(t *testing.T) {}
+func TestLSet(t *testing.T) {
+	store := NewStore()
+
+	names := []string{"alex", "jose"}
+
+	_, err := store.RPush("name", names)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = store.LSet("name", 0, "fran")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	list, err := store.LRange("name", 0, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if list[0] != "fran" {
+		t.Fatalf("expected fran, got: %s", list[0])
+	}
+}
