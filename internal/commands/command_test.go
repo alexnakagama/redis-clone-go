@@ -132,4 +132,19 @@ func TestProcessDelete(t *testing.T) {
 	}
 }
 
-func TestProcessDeleteNonExisting(t *testing.T) {}
+func TestProcessDeleteNonExisting(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"DEL", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "(nil)\n" {
+		t.Errorf("expected (nil), got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("DEL should not close the connection")
+	}
+}
