@@ -39,4 +39,19 @@ func TestProcessSet(t *testing.T) {
 		t.Error("SET should not close the connection")
 	}
 }
-func TestProcessGet(t *testing.T) {}
+func TestProcessGet(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alex\n" {
+		t.Errorf("expected alex, got: %q", response)
+	}
+
+	if closeConn {
+		t.Error("GET should not close the connection")
+	}
+}
