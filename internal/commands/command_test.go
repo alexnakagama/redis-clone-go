@@ -42,7 +42,12 @@ func TestProcessSet(t *testing.T) {
 func TestProcessGet(t *testing.T) {
 	st := store.NewStore()
 
-	response, closeConn, err := Process([]string{"SET", "name", "alex"}, st)
+	_, closeConn, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, _, err := Process([]string{"GET", "name"}, st)
 	if err != nil {
 		t.Fatal(err)
 	}
