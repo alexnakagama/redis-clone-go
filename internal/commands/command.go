@@ -8,9 +8,7 @@ import (
 )
 
 // This function process all the functions defined in the store.go file
-func Process(message string, st *store.Store) (string, bool, error) {
-	parts := strings.Fields(message)
-
+func Process(parts []string, st *store.Store) (string, bool, error) {
 	if len(parts) == 0 {
 		return "ERROR: empty command\n", false, nil
 	}
@@ -206,10 +204,6 @@ func Process(message string, st *store.Store) (string, bool, error) {
 		return strconv.Itoa(seconds) + "\n", false, nil
 
 	case "MSET":
-		if len(parts) != 3 {
-			return "ERROR: expected 3 arguments\n", false, nil
-		}
-
 		if (len(parts)-1)%2 != 0 {
 			return "ERROR: arguments must be key value pairs\n", false, nil
 		}
