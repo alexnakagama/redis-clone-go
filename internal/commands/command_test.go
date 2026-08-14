@@ -100,3 +100,5 @@ func TestProcessGetMissingKey(t *testing.T) {
 		t.Error("GET should not close the connection")
 	}
 }
+
+func TestProcessDelete(t *testing.T) {}
