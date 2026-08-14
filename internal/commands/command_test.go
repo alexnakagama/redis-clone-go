@@ -148,3 +148,5 @@ func TestProcessDeleteNonExisting(t *testing.T) {
 		t.Errorf("DEL should not close the connection")
 	}
 }
+
+func TestProcessDeleteMissingKey(t *testing.T) {}
