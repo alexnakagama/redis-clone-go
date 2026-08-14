@@ -149,4 +149,19 @@ func TestProcessDeleteNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessDeleteMissingKey(t *testing.T) {}
+func TestProcessDeleteMissingKey(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"DEL"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: missing key\n" {
+		t.Errorf("expected ERROR: missing key, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("DEL should not close the connection")
+	}
+}
