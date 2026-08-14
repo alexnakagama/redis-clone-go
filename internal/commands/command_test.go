@@ -131,3 +131,5 @@ func TestProcessDelete(t *testing.T) {
 		t.Errorf("expected (nil), got: %q", setResponse)
 	}
 }
+
+func TestProcessDeleteNonExisting(t *testing.T) {}
