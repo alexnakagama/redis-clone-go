@@ -121,4 +121,13 @@ func TestProcessDelete(t *testing.T) {
 	if closeConn {
 		t.Error("DEL should not close the connection")
 	}
+
+	setResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if setResponse != "(nil)\n" {
+		t.Errorf("expected (nil), got: %q", setResponse)
+	}
 }
