@@ -39,15 +39,16 @@ func TestProcessSet(t *testing.T) {
 		t.Error("SET should not close the connection")
 	}
 }
+
 func TestProcessGet(t *testing.T) {
 	st := store.NewStore()
 
-	_, closeConn, err := Process([]string{"SET", "name", "alex"}, st)
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	response, _, err := Process([]string{"GET", "name"}, st)
+	response, closeConn, err := Process([]string{"GET", "name"}, st)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -60,3 +61,5 @@ func TestProcessGet(t *testing.T) {
 		t.Error("GET should not close the connection")
 	}
 }
+
+func TestProcessGetMissing(t *testing.T) {}
