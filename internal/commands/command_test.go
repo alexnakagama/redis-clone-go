@@ -62,4 +62,19 @@ func TestProcessGet(t *testing.T) {
 	}
 }
 
-func TestProcessGetMissing(t *testing.T) {}
+func TestProcessGetNonExisting(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "(nil)\n" {
+		t.Errorf("expected (nil), got: %q", response)
+	}
+
+	if closeConn {
+		t.Error("GET should not close the connection")
+	}
+}
