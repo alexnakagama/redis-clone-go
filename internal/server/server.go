@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"strings"
 
 	"github.com/alexnakagama/redis-clone-go/internal/commands"
 	"github.com/alexnakagama/redis-clone-go/internal/store"
@@ -72,7 +73,9 @@ func handleConnection(conn net.Conn, s *store.Store) error {
 
 		log.Println("received: ", message)
 
-		response, closeConn, err := commands.Process(message, s)
+		parts := strings.Fields(message)
+
+		response, closeConn, err := commands.Process(parts, s)
 		if err != nil {
 			return err
 		}
