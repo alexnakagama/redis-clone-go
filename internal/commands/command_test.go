@@ -78,3 +78,5 @@ func TestProcessGetNonExisting(t *testing.T) {
 		t.Error("GET should not close the connection")
 	}
 }
+
+func TestProcessGetMissingKey(t *testing.T) {}
