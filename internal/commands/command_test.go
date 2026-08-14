@@ -39,3 +39,4 @@ func TestProcessSet(t *testing.T) {
 		t.Error("SET should not close the connection")
 	}
 }
+func TestProcessGet(t *testing.T) {}
