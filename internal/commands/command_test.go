@@ -23,4 +23,19 @@ func TestProcessPing(t *testing.T) {
 	}
 }
 
-func TestProcessGet(t *testing.T) {}
+func TestProcessSet(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "OK\n" {
+		t.Errorf("expected %q, got: %q", response, "OK\n")
+	}
+
+	if closeConn {
+		t.Error("SET should not close the connection")
+	}
+}
