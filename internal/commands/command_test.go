@@ -22,3 +22,5 @@ func TestProcessPing(t *testing.T) {
 		t.Error("PING should not close the connection")
 	}
 }
+
+func TestProcessGet(t *testing.T) {}
