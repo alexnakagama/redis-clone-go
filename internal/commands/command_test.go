@@ -79,4 +79,24 @@ func TestProcessGetNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessGetMissingKey(t *testing.T) {}
+func TestProcessGetMissingKey(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"GET"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: missing key\n" {
+		t.Errorf("expected ERROR: missing key, got: %q", response)
+	}
+
+	if closeConn {
+		t.Error("GET should not close the connection")
+	}
+}
