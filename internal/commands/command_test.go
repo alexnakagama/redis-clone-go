@@ -109,13 +109,13 @@ func TestProcessDelete(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	deleted, closeConn, err := Process([]string{"DEL", "name"}, st)
+	response, closeConn, err := Process([]string{"DEL", "name"}, st)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if deleted != "OK\n" {
-		t.Errorf("expected OK, got: %q", deleted)
+	if response != "OK\n" {
+		t.Errorf("expected OK, got: %q", response)
 	}
 
 	if closeConn {
