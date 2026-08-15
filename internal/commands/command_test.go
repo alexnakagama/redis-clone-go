@@ -205,7 +205,7 @@ func TestProcessExistsNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessMissingKey(t *testing.T) {
+func TestProcessExistsMissingKey(t *testing.T) {
 	st := store.NewStore()
 
 	response, closeConn, err := Process([]string{"EXISTS"}, st)
@@ -213,8 +213,8 @@ func TestProcessMissingKey(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if response != "0\n" {
-		t.Errorf("expected 0, got: %q", response)
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
 	}
 
 	if closeConn {
