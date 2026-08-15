@@ -357,4 +357,19 @@ func TestProcessKeysNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessKeysTooManyArgs(t *testing.T) {}
+func TestProcessKeysTooManyArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"KEYS", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: too many arguments\n" {
+		t.Errorf("expected ERROR: too many arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("KEYS should not close the connection")
+	}
+}
