@@ -205,4 +205,19 @@ func TestProcessExistsNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessMissingKey(t *testing.T) {}
+func TestProcessMissingKey(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"EXISTS"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "0\n" {
+		t.Errorf("expected 0, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("EXISTS should not close the connection")
+	}
+}
