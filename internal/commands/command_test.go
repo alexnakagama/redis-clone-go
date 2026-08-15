@@ -260,3 +260,5 @@ func TestProcessSizeNonExisting(t *testing.T) {
 		t.Errorf("SIZE should not close the connection")
 	}
 }
+
+func TestProcessClear(t *testing.T) {}
