@@ -340,4 +340,19 @@ func TestProcessKeys(t *testing.T) {
 	}
 }
 
-func TestProcessKeysNonExisting(t *testing.T) {}
+func TestProcessKeysNonExisting(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"KEYS"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "0\n" {
+		t.Errorf("expected 0, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("KEYS should not close the connection")
+	}
+}
