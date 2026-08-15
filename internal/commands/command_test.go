@@ -374,4 +374,24 @@ func TestProcessKeysTooManyArgs(t *testing.T) {
 	}
 }
 
-func TestProcessIncr(t *testing.T) {}
+func TestProcessIncr(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "age", "18"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"INCR", "age"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "19\n" {
+		t.Errorf("expected 19, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("INCR should not close the connection")
+	}
+}
