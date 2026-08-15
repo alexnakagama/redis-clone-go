@@ -187,3 +187,5 @@ func TestProcessExists(t *testing.T) {
 		t.Errorf("EXISTS should not close the connection")
 	}
 }
+
+func TestProcessExistsNonExisting(t *testing.T) {}
