@@ -317,3 +317,5 @@ func TestProcessClearTooManyArgs(t *testing.T) {
 		t.Errorf("CLEAR should not close the connection")
 	}
 }
+
+func TestProcessKeys(t *testing.T) {}
