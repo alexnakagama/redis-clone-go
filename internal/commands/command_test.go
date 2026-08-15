@@ -395,3 +395,25 @@ func TestProcessIncr(t *testing.T) {
 		t.Errorf("INCR should not close the connection")
 	}
 }
+
+func TestProcessDecr(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "age", "18"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"DECR", "age"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "17\n" {
+		t.Errorf("expected 17, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("DECR should not close the connection")
+	}
+}
