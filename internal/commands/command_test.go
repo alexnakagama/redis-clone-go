@@ -300,3 +300,5 @@ func TestProcessClear(t *testing.T) {
 		t.Errorf("expected (nil), got: %q", response)
 	}
 }
+
+func TestProcessClearTooManyArgs(t *testing.T) {}
