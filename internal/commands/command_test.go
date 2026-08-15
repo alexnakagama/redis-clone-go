@@ -318,4 +318,24 @@ func TestProcessClearTooManyArgs(t *testing.T) {
 	}
 }
 
-func TestProcessKeys(t *testing.T) {}
+func TestProcessKeys(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"KEYS"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "name" {
+		t.Errorf("expected name, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("KEYS should not close the connection")
+	}
+}
