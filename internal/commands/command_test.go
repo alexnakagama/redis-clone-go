@@ -166,4 +166,24 @@ func TestProcessDeleteMissingKey(t *testing.T) {
 	}
 }
 
-func TestProcessExists(t *testing.T) {}
+func TestProcessExists(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"EXISTS", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "1\n" {
+		t.Errorf("expected 1, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("EXISTS should not close the connection")
+	}
+}
