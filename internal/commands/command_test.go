@@ -339,3 +339,5 @@ func TestProcessKeys(t *testing.T) {
 		t.Errorf("KEYS should not close the connection")
 	}
 }
+
+func TestProcessKeysNonExisting(t *testing.T) {}
