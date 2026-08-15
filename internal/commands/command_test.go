@@ -373,3 +373,5 @@ func TestProcessKeysTooManyArgs(t *testing.T) {
 		t.Errorf("KEYS should not close the connection")
 	}
 }
+
+func TestProcessIncr(t *testing.T) {}
