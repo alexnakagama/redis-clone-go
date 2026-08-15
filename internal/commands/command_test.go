@@ -222,4 +222,24 @@ func TestProcessExistsMissingKey(t *testing.T) {
 	}
 }
 
-func TestProcessSize(t *testing.T) {}
+func TestProcessSize(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"SIZE"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "1\n" {
+		t.Errorf("expected 1, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("SIZE should not close the connection")
+	}
+}
