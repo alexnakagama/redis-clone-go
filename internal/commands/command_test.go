@@ -204,3 +204,5 @@ func TestProcessExistsNonExisting(t *testing.T) {
 		t.Errorf("EXISTS should not close the connection")
 	}
 }
+
+func TestProcessMissingKey(t *testing.T) {}
