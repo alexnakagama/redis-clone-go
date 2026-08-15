@@ -301,4 +301,19 @@ func TestProcessClear(t *testing.T) {
 	}
 }
 
-func TestProcessClearTooManyArgs(t *testing.T) {}
+func TestProcessClearTooManyArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"CLEAR", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: too many arguments\n" {
+		t.Errorf("expected ERROR: too many arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("CLEAR should not close the connection")
+	}
+}
