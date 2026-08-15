@@ -261,4 +261,42 @@ func TestProcessSizeNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessClear(t *testing.T) {}
+func TestProcessClear(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	getResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "alex\n" {
+		t.Errorf("expected alex, got: %q", getResponse)
+	}
+
+	clearResponse, closeConn, err := Process([]string{"CLEAR"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if clearResponse != "OK\n" {
+		t.Errorf("expected OK, got: %q", clearResponse)
+	}
+
+	if closeConn {
+		t.Errorf("CLEAR should not close the connection")
+	}
+
+	response, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "(nil)\n" {
+		t.Errorf("expected (nil), got: %q", response)
+	}
+}
