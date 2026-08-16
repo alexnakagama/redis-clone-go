@@ -396,6 +396,8 @@ func TestProcessIncr(t *testing.T) {
 	}
 }
 
+func TestProcessIncrMissingKey(t *testing.T) {}
+
 func TestProcessDecr(t *testing.T) {
 	st := store.NewStore()
 
