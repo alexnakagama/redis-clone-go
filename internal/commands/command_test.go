@@ -474,7 +474,22 @@ func TestProcessIncrBy(t *testing.T) {
 	}
 }
 
-func TestProcessIncrByMissingKey(t *testing.T) {}
+func TestProcessIncrByMissingKey(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"INCRBY"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("INCRBY should not close the connection")
+	}
+}
 
 func TestProcessDecrBy(t *testing.T) {
 	st := store.NewStore()
