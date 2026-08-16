@@ -417,3 +417,5 @@ func TestProcessDecr(t *testing.T) {
 		t.Errorf("DECR should not close the connection")
 	}
 }
+
+func TestProcessIncrBy(t *testing.T) {}
