@@ -418,4 +418,24 @@ func TestProcessDecr(t *testing.T) {
 	}
 }
 
-func TestProcessIncrBy(t *testing.T) {}
+func TestProcessIncrBy(t *testing.T) {
+	st := store.NewStore()
+	
+	_, _, err := Process([]string{"SET", "age", "18"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"INCRBY", "age", "2"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "20\n" {
+		t.Errorf("expected 20, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("INCRBY should not close the connection")
+	}
+}
