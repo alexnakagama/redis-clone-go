@@ -762,4 +762,29 @@ func TestProcessExpireMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessTTL(t *testing.T) {}
+func TestProcessTTL(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, _, err = Process([]string{"EXPIRE", "name", "30"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"TTL", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "29\n" {
+		t.Errorf("expected 30, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("TTL should not close the connection")
+	}
+}
