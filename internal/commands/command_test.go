@@ -961,3 +961,5 @@ func TestProcessGetDelMissingArgs(t *testing.T) {
 		t.Errorf("GETDEL should not close the connection")
 	}
 }
+
+func TestProcessPersist(t *testing.T) {}
