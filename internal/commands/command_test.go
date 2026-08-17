@@ -788,3 +788,5 @@ func TestProcessTTL(t *testing.T) {
 		t.Errorf("TTL should not close the connection")
 	}
 }
+
+func TestProcessTTLMissingArgs(t *testing.T) {}
