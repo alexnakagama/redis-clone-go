@@ -634,3 +634,5 @@ func TestProcessRenameMissingArgs(t *testing.T) {
 		t.Errorf("RENAME should not close the connection")
 	}
 }
+
+func TestProcessMGet(t *testing.T) {}
