@@ -865,3 +865,5 @@ func TestProcessMSetInvalid(t *testing.T) {
 		t.Errorf("MSET should not close the connection")
 	}
 }
+
+func TestProcessGetSet(t *testing.T) {}
