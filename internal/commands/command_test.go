@@ -1014,3 +1014,34 @@ func TestProcessPersistMissingArgs(t *testing.T) {
 		t.Errorf("PERSIST should not close the connection")
 	}
 }
+
+func TestProcessPersistNoExpire(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"PERSIST", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "0\n" {
+		t.Errorf("expected 0, got: %q", response)
+	}
+
+	ttlResponse, _, err := Process([]string{"TTL", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ttlResponse != "-1\n" {
+		t.Fatalf("expected -1, got: %q", ttlResponse)
+	}
+
+	if closeConn {
+		t.Errorf("PERSIST should not close the connection")
+	}
+}
