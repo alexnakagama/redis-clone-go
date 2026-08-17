@@ -683,3 +683,5 @@ func TestProcessMGetMissingArgs(t *testing.T) {
 		t.Errorf("MGET should not close the connection")
 	}
 }
+
+func TestProcessStrLen(t *testing.T) {}
