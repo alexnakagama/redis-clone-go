@@ -1067,3 +1067,5 @@ func TestProcessTouch(t *testing.T) {
 		t.Errorf("TOUCH should not close the connection")
 	}
 }
+
+func TestProcessTouchMissingArgs(t *testing.T) {}
