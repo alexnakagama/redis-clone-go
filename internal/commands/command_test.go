@@ -1084,3 +1084,5 @@ func TestProcessTouchMissingArgs(t *testing.T) {
 		t.Errorf("TOUCH should not close the connection")
 	}
 }
+
+func TestProcessCopy(t *testing.T) {}
