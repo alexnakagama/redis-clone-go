@@ -1085,4 +1085,33 @@ func TestProcessTouchMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessCopy(t *testing.T) {}
+func TestProcessCopy(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+	
+	response, closeConn, err := Process([]string{"COPY", "name", "username"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "1\n" {
+		t.Errorf("expected 1, got: %q", response)
+	}
+
+	getResponse, _, err := Process([]string{"GET", "username"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "alex\n" {
+		t.Errorf("expected alex, got: %q", getResponse)
+	}
+
+	if closeConn {
+		t.Errorf("COPY should not close the connection")
+	}
+}
