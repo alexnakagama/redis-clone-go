@@ -897,4 +897,19 @@ func TestProcessGetSet(t *testing.T) {
 	}
 }
 
-func TestProcessGetSetMissingArgs(t *testing.T) {}
+func TestProcessGetSetMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"GETSET"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: missing arguments\n" {
+		t.Errorf("expected ERROR: missing arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("GETSET should not close the connection")
+	}
+}
