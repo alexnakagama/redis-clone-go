@@ -705,3 +705,20 @@ func TestProcessStrLen(t *testing.T) {
 		t.Errorf("STRLEN should not close the connection")
 	}
 }
+
+func TestProcessStrLenMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"STRLEN"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("STRLEN should not close the connection")
+	}
+}
