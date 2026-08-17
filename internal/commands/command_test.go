@@ -1045,3 +1045,5 @@ func TestProcessPersistNoExpire(t *testing.T) {
 		t.Errorf("PERSIST should not close the connection")
 	}
 }
+
+func TestProcessTouch(t *testing.T) {}
