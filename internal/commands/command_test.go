@@ -914,4 +914,33 @@ func TestProcessGetSetMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessGetDel(t *testing.T) {}
+func TestProcessGetDel(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"GETDEL", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alex\n" {
+		t.Errorf("expected alex, got: %q", response)
+	}
+
+	getResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "(nil)\n" {
+		t.Errorf("expected (nil), got: %q", getResponse)
+	}
+
+	if closeConn {
+		t.Errorf("GETDEL should not close the connection")
+	}
+}
