@@ -530,4 +530,24 @@ func TestProcessDecrByMissingKey(t *testing.T) {
 	}
 }
 
-func TestProcessAppend(t *testing.T) {}
+func TestProcessAppend(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"APPEND", "name", "a"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alexa\n" {
+		t.Errorf("expected alexa, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("APPEND should not close the connection")
+	}
+}
