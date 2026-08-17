@@ -585,4 +585,35 @@ func TestProcessRename(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	response, closeConn, err := Process([]string{"RENAME", "name", "username"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "OK\n" {
+		t.Errorf("expected OK, got: %q", response)
+	}
+
+	getResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "(nil)\n" {
+		t.Errorf("expected (nil), got: %q", getResponse)
+	}
+
+	realValue, _, err := Process([]string{"GET", "username"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if realValue != "alex\n" {
+		t.Errorf("expected alex, got: %q", realValue)
+	}
+
+	if closeConn {
+		t.Errorf("RENAME should not close the connection")
+	}
 }
