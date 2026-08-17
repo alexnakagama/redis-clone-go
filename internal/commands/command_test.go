@@ -997,3 +997,5 @@ func TestProcessPersist(t *testing.T) {
 		t.Errorf("PERSIST should not close the connection")
 	}
 }
+
+func TestProcessPersistMissingArgs(t *testing.T) {}
