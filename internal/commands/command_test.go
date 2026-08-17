@@ -866,4 +866,33 @@ func TestProcessMSetInvalid(t *testing.T) {
 	}
 }
 
-func TestProcessGetSet(t *testing.T) {}
+func TestProcessGetSet(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"GETSET", "name", "fran"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alex\n" {
+		t.Errorf("expected alex, got: %q", response)
+	}
+
+	getResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "fran\n" {
+		t.Errorf("expected fran, got: %q", getResponse)
+	}
+
+	if closeConn {
+		t.Errorf("GETSET should not close the connection")
+	}
+}
