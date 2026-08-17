@@ -744,3 +744,5 @@ func TestProcessExpire(t *testing.T) {
 		t.Errorf("EXPIRE should not close the connection")
 	}
 }
+
+func TestProcessExpireMissingArgs(t *testing.T) {}
