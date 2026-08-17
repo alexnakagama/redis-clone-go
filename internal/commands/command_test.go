@@ -848,3 +848,20 @@ func TestProcessMSet(t *testing.T) {
 		t.Errorf("MSET should not close the connection")
 	}
 }
+
+func TestProcessMSetInvalid(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"MSET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: arguments must be key value pairs\n" {
+		t.Errorf("expected ERROR: arguments must be key value pairs, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("MSET should not close the connection")
+	}
+}
