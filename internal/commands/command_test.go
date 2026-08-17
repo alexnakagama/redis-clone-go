@@ -896,3 +896,5 @@ func TestProcessGetSet(t *testing.T) {
 		t.Errorf("GETSET should not close the connection")
 	}
 }
+
+func TestProcessGetSetMissingArgs(t *testing.T) {}
