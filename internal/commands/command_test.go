@@ -945,4 +945,19 @@ func TestProcessGetDel(t *testing.T) {
 	}
 }
 
-func TestProcessGetDelMissingKey(t *testing.T) {}
+func TestProcessGetDelMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"GETDEL"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("GETDEL should not close the connection")
+	}
+}
