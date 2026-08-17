@@ -529,3 +529,5 @@ func TestProcessDecrByMissingKey(t *testing.T) {
 		t.Errorf("DECRBY should not close the connection")
 	}
 }
+
+func TestProcessAppend(t *testing.T) {}
