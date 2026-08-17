@@ -806,4 +806,21 @@ func TestProcessTTLMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessTTLNonExisting(t *testing.T) {}
+func TestProcessTTLNonExisting(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"TTL", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "-1\n" {
+		t.Errorf("expected -1, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("TTL should not close the connection")
+	}
+}
+
+func TestProcessMSet(t *testing.T) {}
