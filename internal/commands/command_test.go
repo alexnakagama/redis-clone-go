@@ -745,4 +745,19 @@ func TestProcessExpire(t *testing.T) {
 	}
 }
 
-func TestProcessExpireMissingArgs(t *testing.T) {}
+func TestProcessExpireMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"EXPIRE"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("EXPIRE should not close the connection")
+	}
+}
