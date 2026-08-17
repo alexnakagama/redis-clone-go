@@ -823,4 +823,28 @@ func TestProcessTTLNonExisting(t *testing.T) {
 	}
 }
 
-func TestProcessMSet(t *testing.T) {}
+func TestProcessMSet(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"MSET", "name", "alex", "age", "20"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "OK\n" {
+		t.Errorf("expected OK, got: %q", response)
+	}
+
+	mGetResponse, _, err := Process([]string{"MGET", "name", "age"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if mGetResponse != "alex\n20\n" {
+		t.Errorf("expected alex 20, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("MSET should not close the connection")
+	}
+}
