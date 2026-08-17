@@ -998,4 +998,19 @@ func TestProcessPersist(t *testing.T) {
 	}
 }
 
-func TestProcessPersistMissingArgs(t *testing.T) {}
+func TestProcessPersistMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"PERSIST"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("PERSIST should not close the connection")
+	}
+}
