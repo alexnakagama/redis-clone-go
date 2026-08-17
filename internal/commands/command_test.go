@@ -789,4 +789,19 @@ func TestProcessTTL(t *testing.T) {
 	}
 }
 
-func TestProcessTTLMissingArgs(t *testing.T) {}
+func TestProcessTTLMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"TTL"} ,st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: missing arguments\n" {
+		t.Errorf("expected ERROR: missing arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("TTL should not close the connection")
+	}
+}
