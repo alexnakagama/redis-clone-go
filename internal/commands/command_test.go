@@ -547,6 +547,15 @@ func TestProcessAppend(t *testing.T) {
 		t.Errorf("expected 5, got: %q", response)
 	}
 
+	getResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "alexa\n" {
+		t.Errorf("expected alexa, got: %q", getResponse)
+	}
+
 	if closeConn {
 		t.Errorf("APPEND should not close the connection")
 	}
@@ -569,4 +578,11 @@ func TestProcessAppendMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessRename(t *testing.T) {}
+func TestProcessRename(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
