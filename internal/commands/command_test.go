@@ -913,3 +913,5 @@ func TestProcessGetSetMissingArgs(t *testing.T) {
 		t.Errorf("GETSET should not close the connection")
 	}
 }
+
+func TestProcessGetDel(t *testing.T) {}
