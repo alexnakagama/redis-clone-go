@@ -723,4 +723,24 @@ func TestProcessStrLenMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessExpire(t *testing.T) {}
+func TestProcessExpire(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"EXPIRE", "name", "30"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "1\n" {
+		t.Errorf("expected 1, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("EXPIRE should not close the connection")
+	}
+}
