@@ -944,3 +944,5 @@ func TestProcessGetDel(t *testing.T) {
 		t.Errorf("GETDEL should not close the connection")
 	}
 }
+
+func TestProcessGetDelMissingKey(t *testing.T) {}
