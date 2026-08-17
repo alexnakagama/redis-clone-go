@@ -568,3 +568,5 @@ func TestProcessAppendMissingArgs(t *testing.T) {
 		t.Errorf("APPEND should not close the connection")
 	}
 }
+
+func TestProcessRename(t *testing.T) {}
