@@ -684,4 +684,24 @@ func TestProcessMGetMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessStrLen(t *testing.T) {}
+func TestProcessStrLen(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"STRLEN", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "4\n" {
+		t.Errorf("expected 4, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("STRLEN should not close the connection")
+	}
+}
