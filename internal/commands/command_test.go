@@ -635,4 +635,36 @@ func TestProcessRenameMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessMGet(t *testing.T) {}
+func TestProcessMGet(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, _, err = Process([]string{"SET", "age", "20"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, _, err = Process([]string{"SET", "city", "buenos aires"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"MGET", "name", "age", "city"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alex\n20\nbuenos aires\n" {
+		t.Errorf("expected alex 20 buenos aires, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("MGET should not close the connection")
+	}
+}
+
+func TestProcessMGetMissingArgs(t *testing.T) {}
