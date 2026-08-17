@@ -722,3 +722,5 @@ func TestProcessStrLenMissingArgs(t *testing.T) {
 		t.Errorf("STRLEN should not close the connection")
 	}
 }
+
+func TestProcessExpire(t *testing.T) {}
