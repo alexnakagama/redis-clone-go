@@ -618,4 +618,19 @@ func TestProcessRename(t *testing.T) {
 	}
 }
 
-func TestProcessRenameMissingArgs(t *testing.T) {}
+func TestProcessRenameMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"RENAME"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("RENAME should not close the connection")
+	}
+}
