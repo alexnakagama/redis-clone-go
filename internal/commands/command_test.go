@@ -543,8 +543,25 @@ func TestProcessAppend(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if response != "alexa\n" {
-		t.Errorf("expected alexa, got: %q", response)
+	if response != "5\n" {
+		t.Errorf("expected 5, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("APPEND should not close the connection")
+	}
+}
+
+func TestProcessAppendMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"APPEND"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
 	}
 
 	if closeConn {
