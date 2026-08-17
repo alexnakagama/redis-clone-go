@@ -805,3 +805,5 @@ func TestProcessTTLMissingArgs(t *testing.T) {
 		t.Errorf("TTL should not close the connection")
 	}
 }
+
+func TestProcessTTLNonExisting(t *testing.T) {}
