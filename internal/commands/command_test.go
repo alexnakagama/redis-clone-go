@@ -1132,3 +1132,19 @@ func TestProcessCopyMissingArguments(t *testing.T) {
 		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
 	}
 }
+
+func TestProcessSetNX(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"SETNX", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "" {
+	}
+
+	if closeConn {
+		t.Errorf("SETNX should not close the connection")
+	}
+}
