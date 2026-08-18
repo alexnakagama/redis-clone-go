@@ -1141,7 +1141,8 @@ func TestProcessSetNX(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if response != "" {
+	if response != "1\n" {
+		t.Errorf("expected 1, got: %q", response)
 	}
 
 	if closeConn {
