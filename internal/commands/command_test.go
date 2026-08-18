@@ -1115,3 +1115,20 @@ func TestProcessCopy(t *testing.T) {
 		t.Errorf("COPY should not close the connection")
 	}
 }
+
+func TestProcessCopyMissingArguments(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"COPY", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if closeConn {
+		t.Errorf("expected ")
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+}
