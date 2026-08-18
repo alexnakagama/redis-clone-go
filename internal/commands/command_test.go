@@ -1150,7 +1150,9 @@ func TestProcessSetNX(t *testing.T) {
 	}
 }
 
-func TestProcessSETNXMissingArgs(t *testing.T) {
+func TestProcessSetNXNoChange
+
+func TestProcessSetNXMissingArgs(t *testing.T) {
 	st := store.NewStore()
 
 	response, closeConn, err := Process([]string{"SETNX"}, st)
