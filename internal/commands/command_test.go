@@ -1198,4 +1198,24 @@ func TestProcessSetNXMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessType(t *testing.T) {}
+func TestProcessType(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"TYPE", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "string\n" {
+		t.Errorf("expected string, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("TYPE should not close the connection")
+	}
+}
