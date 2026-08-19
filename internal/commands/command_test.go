@@ -1150,7 +1150,14 @@ func TestProcessSetNX(t *testing.T) {
 	}
 }
 
-func TestProcessSetNXNoChange
+func TestProcessSetNXNoChange(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"SET", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
 
 func TestProcessSetNXMissingArgs(t *testing.T) {
 	st := store.NewStore()
