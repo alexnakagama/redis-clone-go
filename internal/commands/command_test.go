@@ -1197,3 +1197,5 @@ func TestProcessSetNXMissingArgs(t *testing.T) {
 		t.Errorf("SETNX should not close the connection")
 	}
 }
+
+func TestProcessType(t *testing.T) {}
