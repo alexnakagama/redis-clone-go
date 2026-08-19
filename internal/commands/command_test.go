@@ -6,6 +6,8 @@ import (
 	"github.com/alexnakagama/redis-clone-go/internal/store"
 )
 
+// Here are the tests for the strings and for store functions
+
 func TestProcessPing(t *testing.T) {
 	st := store.NewStore()
 
@@ -1236,3 +1238,5 @@ func TestProcessTypeMissingArgs(t *testing.T) {
 		t.Errorf("TYPE should not close the connection")
 	}
 }
+
+// Here starts the tests for the lists
