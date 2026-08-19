@@ -1220,4 +1220,19 @@ func TestProcessType(t *testing.T) {
 	}
 }
 
-func TestProcessTypeMissingArgs(t *testing.T) {}
+func TestProcessTypeMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"TYPE"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("TYPE should not close the connection")
+	}
+}
