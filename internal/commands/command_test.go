@@ -1157,6 +1157,19 @@ func TestProcessSetNXNoChange(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	response, closeConn, err := Process([]string{"SETNX", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "0\n" {
+		t.Errorf("expected 0, got: %q", response)
+	} 
+
+	if closeConn {
+		t.Errorf("SETNX should not close the connection")
+	}
 }
 
 func TestProcessSetNXMissingArgs(t *testing.T) {
