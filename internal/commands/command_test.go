@@ -1158,7 +1158,7 @@ func TestProcessSetNXNoChange(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	response, closeConn, err := Process([]string{"SETNX", "name", "alex"}, st)
+	response, closeConn, err := Process([]string{"SETNX", "name", "juan"}, st)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1166,6 +1166,15 @@ func TestProcessSetNXNoChange(t *testing.T) {
 	if response != "0\n" {
 		t.Errorf("expected 0, got: %q", response)
 	} 
+
+	getResponse, _, err := Process([]string{"GET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if getResponse != "alex\n" {
+		t.Errorf("expected alex, got: %q", getResponse)
+	}
 
 	if closeConn {
 		t.Errorf("SETNX should not close the connection")
