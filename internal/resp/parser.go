@@ -28,7 +28,7 @@ func Parse(r *bufio.Reader) ([]string, error) {
 
 	result := make([]string, 0, arrayCount)
 
-	for i := 0; i < arrayCount; i++ {
+	for range arrayCount {
 		bulkLine, err := r.ReadString('\n')
 		if err != nil {
 			return []string{}, err
