@@ -1219,3 +1219,5 @@ func TestProcessType(t *testing.T) {
 		t.Errorf("TYPE should not close the connection")
 	}
 }
+
+func TestProcessTypeMissingArgs(t *testing.T) {}
