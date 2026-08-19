@@ -1242,3 +1242,5 @@ func TestProcessTypeMissingArgs(t *testing.T) {
 // Here starts the tests for the lists
 
 func TestProcessRPush(t *testing.T) {}
+
+func TestProcessLPush(t *testing.T) {}
