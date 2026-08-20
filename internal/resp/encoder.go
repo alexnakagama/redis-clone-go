@@ -21,4 +21,6 @@ func (e *Encoder) EncodeSimpleString(value string) error {
 }
 
 func (e *Encoder) EncodeError(value string) error {
+	_, err := fmt.Fprintf(e.writer, "-%s\r\n", value)
+	return err
 }
