@@ -8,6 +8,8 @@ import (
 
 // Here are the tests for the strings and for store functions
 
+func TestProcessQuit(t *testing.T) {}
+
 func TestProcessPing(t *testing.T) {
 	st := store.NewStore()
 
