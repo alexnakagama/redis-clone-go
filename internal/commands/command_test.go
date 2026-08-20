@@ -1267,6 +1267,8 @@ func TestProcessRPush(t *testing.T) {
 	}
 }
 
+func TestProcessRPushMissingArgs(t *testing.T) {}
+
 func TestProcessLPush(t *testing.T) {
 	st := store.NewStore()
 
