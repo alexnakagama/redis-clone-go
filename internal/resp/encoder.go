@@ -36,3 +36,5 @@ func (e *Encoder) EncodeBulkString(value string) error {
 	_, err := fmt.Fprintf(e.writer, "$%d\r\n%s\r\n", length, value)
 	return err
 }
+
+func (e *Encoder) EncodeNull() error {}
