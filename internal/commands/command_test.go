@@ -1348,3 +1348,5 @@ func TestProcessLLen(t *testing.T) {
 		t.Errorf("LLEN should not close the connection")
 	}
 }
+
+func TestProcessLLenMissingArgs(t *testing.T) {}
