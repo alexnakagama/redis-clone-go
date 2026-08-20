@@ -25,4 +25,7 @@ func (e *Encoder) EncodeError(value string) error {
 	return err
 }
 
-func (e *Encoder) EncodeInteger(value int) error {}
+func (e *Encoder) EncodeInteger(value int) error {
+	_, err := fmt.Fprintf(e.writer, ":%d\r\n", value)
+	return err
+}
