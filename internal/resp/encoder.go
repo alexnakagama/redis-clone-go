@@ -30,4 +30,9 @@ func (e *Encoder) EncodeInteger(value int) error {
 	return err
 }
 
-func (e *Encoder) EncodeBulkString(value string) error {}
+func (e *Encoder) EncodeBulkString(value string) error {
+	length := len(value)
+
+	_, err := fmt.Fprintf(e.writer, "$%d\r\n%s\r\n", length, value)
+	return err
+}
