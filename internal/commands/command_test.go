@@ -1279,7 +1279,7 @@ func TestProcessRPushMissingArgs(t *testing.T) {
 		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
 	}
 
-	if closeConn {ERROR: expected 3 arguments\n
+	if closeConn {
 		t.Errorf("RPUSH should not close the connection")
 	}
 }
