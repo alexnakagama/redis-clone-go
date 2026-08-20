@@ -1383,4 +1383,33 @@ func TestProcessLLenMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessLPop(t *testing.T) {}
+func TestProcessLPop(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LPOP", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alex\n" {
+		t.Errorf("expected alex, got: %q", response)
+	}
+
+	lRangeResponse, _, err := Process([]string{"LRANGE", "name", "0", "1"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if lRangeResponse != "juan\n" {
+		t.Errorf("expected juan, got: %q", response)
+	}
+ 
+	if closeConn {
+		t.Errorf("LPOP should not close the connection")
+	}
+}
