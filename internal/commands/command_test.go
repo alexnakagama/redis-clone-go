@@ -1655,4 +1655,19 @@ func TestProcessLTrim(t *testing.T) {
 	}
 }
 
-func TestProcessLTrimMissingArgs(t *testing.T) {}
+func TestProcessLTrimMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LTRIM"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 4 arguments\n" {
+		t.Errorf("expected ERROR: expected 4 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LTRIM should not close the connection")
+	}
+}
