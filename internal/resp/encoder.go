@@ -29,3 +29,5 @@ func (e *Encoder) EncodeInteger(value int) error {
 	_, err := fmt.Fprintf(e.writer, ":%d\r\n", value)
 	return err
 }
+
+func (e *Encoder) EncodeBulkString(value string) error {}
