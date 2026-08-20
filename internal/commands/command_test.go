@@ -25,6 +25,8 @@ func TestProcessQuit(t *testing.T) {
 	}
 }
 
+func TestProcessQuitMissingArgs(t *testing.T) {}
+
 func TestProcessPing(t *testing.T) {
 	st := store.NewStore()
 
