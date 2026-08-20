@@ -1414,4 +1414,33 @@ func TestProcessLPop(t *testing.T) {
 	}
 }
 
-func TestProcessRPop(t *testing.T) {}
+func TestProcessRPop(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"RPOP", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "juan\n" {
+		t.Errorf("expected juan, got: %q", response)
+	}
+
+	lRangeResponse, _, err := Process([]string{"LRANGE", "name", "0", "1"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if lRangeResponse != "alex\n" {
+		t.Errorf("expected alex, got: %q", response)
+	}
+ 
+	if closeConn {
+		t.Errorf("RPOP should not close the connection")
+	}
+}
