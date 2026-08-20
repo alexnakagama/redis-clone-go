@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+func TestNewEncoder(t *testing.T) {}
+
 func TestEncodeSimpleString(t *testing.T) {
 	var buf bytes.Buffer
 
