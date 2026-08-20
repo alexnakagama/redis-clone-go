@@ -1413,3 +1413,5 @@ func TestProcessLPop(t *testing.T) {
 		t.Errorf("LPOP should not close the connection")
 	}
 }
+
+func TestProcessRPop(t *testing.T) {}
