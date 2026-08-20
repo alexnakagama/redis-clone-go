@@ -1694,4 +1694,19 @@ func TestProcessLPos(t *testing.T) {
 	}
 }
 
-func TestProcessLPosMissingArgs(t *testing.T) {}
+func TestProcessLPosMissingArgs(t *testing.T) {
+	st := store.NewStore()
+	
+	response, closeConn, err := Process([]string{"LPOS", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LPOS should not close the connection")
+	}
+}

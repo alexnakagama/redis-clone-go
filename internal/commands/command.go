@@ -548,7 +548,7 @@ func Process(parts []string, st *store.Store) (string, bool, error) {
 
 	case "LPOS":
 		if len(parts) != 3 {
-			return "ERROR: expected 2 arguments\n", false, nil
+			return "ERROR: expected 3 arguments\n", false, nil
 		}
 
 		key := parts[1]
