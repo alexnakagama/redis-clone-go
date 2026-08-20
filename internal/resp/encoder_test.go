@@ -56,4 +56,19 @@ func TestEncodeInteger(t *testing.T) {
 	}
 }
 
-func TestEncodeBulkString(t *testing.T) {}
+func TestEncodeBulkString(t *testing.T) {
+	var buf bytes.Buffer
+
+	encoder := NewEncoder(&buf)
+
+	err := encoder.EncodeBulkString("alex")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := "$4\r\nalex\r\n" 
+
+	if buf.String() != expected {
+		t.Errorf("expected %q, got: %q", expected, buf.String())
+	}
+}
