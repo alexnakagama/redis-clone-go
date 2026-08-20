@@ -1537,4 +1537,24 @@ func TestProcessMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessLIndex(t *testing.T) {}
+func TestProcessLIndex(t *testing.T) {
+	st := store.NewStore()
+	
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err!= nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LINDEX", "name", "1"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "juan\n" {
+		t.Errorf("expected juan, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LINDEX should not close the connection")
+	}
+}
