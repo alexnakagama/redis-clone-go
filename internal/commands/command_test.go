@@ -1607,4 +1607,19 @@ func TestProcessLSet(t *testing.T) {
 	}
 }
 
-func TestProcessLSetMissingArgs(t *testing.T) {}
+func TestProcessLSetMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LSET", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 4 arguments\n" {
+		t.Errorf("expected ERROR: expected 4 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LSET should not close the connection")
+	}
+}
