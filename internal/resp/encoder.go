@@ -1,6 +1,9 @@
 package resp
 
-import "io"
+import (
+	"fmt"
+	"io"
+)
 
 type Encoder struct {
 	writer io.Writer
@@ -12,4 +15,7 @@ func NewEncoder(w io.Writer) *Encoder {
 	}
 }
 
-func (e *Encoder) EncodeSimpleString(value string) error {}
+func (e *Encoder) EncodeSimpleString(value string) error {
+	_, err := fmt.Fprintf(e.writer, "+%s\r\n", value)
+	return err	
+}
