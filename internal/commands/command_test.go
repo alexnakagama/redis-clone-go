@@ -1461,3 +1461,20 @@ func TestProcessRPop(t *testing.T) {
 		t.Errorf("RPOP should not close the connection")
 	}
 }
+
+func TestProcessRPopMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"RPOP"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("RPOP should not close the connection")
+	}
+}
