@@ -24,3 +24,5 @@ func (e *Encoder) EncodeError(value string) error {
 	_, err := fmt.Fprintf(e.writer, "-%s\r\n", value)
 	return err
 }
+
+func (e *Encoder) EncodeInteger(value int) error {}
