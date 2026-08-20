@@ -1711,4 +1711,33 @@ func TestProcessLPosMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessLRem(t *testing.T) {}
+func TestProcessLRem(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LREM", "name", "2", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "2\n" {
+		t.Errorf("expected 2, got: %q", response)
+	}
+
+	lRangeResponse, _, err := Process([]string{"LRANGE", "name", "0", "1"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if lRangeResponse != "juan\n" {
+		t.Errorf("expected juan, got: %q", lRangeResponse)
+	}
+
+	if closeConn {
+		t.Errorf("LREM should not close the connection")
+	}
+}
