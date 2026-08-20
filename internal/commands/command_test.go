@@ -1672,4 +1672,24 @@ func TestProcessLTrimMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessLPos(t *testing.T) {}
+func TestProcessLPos(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LPOS", "name", "alex"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "0\n" {
+		t.Errorf("expected 0, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LPOS should not close the connection")
+	}
+}
