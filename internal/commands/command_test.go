@@ -1576,4 +1576,33 @@ func TestProcessLIndexMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessLSet(t *testing.T) {}
+func TestProcessLSet(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err!= nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LSET", "name", "1", "fran"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "OK\n" {
+		t.Errorf("expected OK, got: %q", response)
+	}
+
+	lRangeResponse, _, err := Process([]string{"LRANGE", "name", "0", "1"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if lRangeResponse != "alex\nfran\n" {
+		t.Errorf("expected alex fran, got: %q", lRangeResponse)
+	}
+
+	if closeConn {
+		t.Errorf("LSET should not close the connection")
+	}
+}
