@@ -1558,3 +1558,5 @@ func TestProcessLIndex(t *testing.T) {
 		t.Errorf("LINDEX should not close the connection")
 	}
 }
+
+func TestProcessLIndexMissingArgs(t *testing.T) {}
