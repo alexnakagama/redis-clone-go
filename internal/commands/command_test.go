@@ -1710,3 +1710,5 @@ func TestProcessLPosMissingArgs(t *testing.T) {
 		t.Errorf("LPOS should not close the connection")
 	}
 }
+
+func TestProcessLRem(t *testing.T) {}
