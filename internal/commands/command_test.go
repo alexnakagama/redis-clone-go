@@ -1741,3 +1741,5 @@ func TestProcessLRem(t *testing.T) {
 		t.Errorf("LREM should not close the connection")
 	}
 }
+
+func TestProcessLRemMissingArgs(t *testing.T) {}
