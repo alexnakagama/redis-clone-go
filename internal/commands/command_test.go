@@ -1478,3 +1478,5 @@ func TestProcessRPopMissingArgs(t *testing.T) {
 		t.Errorf("RPOP should not close the connection")
 	}
 }
+
+func TestProcessLRange(t *testing.T) {}
