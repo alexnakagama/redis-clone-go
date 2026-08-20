@@ -37,4 +37,7 @@ func (e *Encoder) EncodeBulkString(value string) error {
 	return err
 }
 
-func (e *Encoder) EncodeNull() error {}
+func (e *Encoder) EncodeNull() error {
+	_, err := fmt.Fprintf(e.writer, "$-1\r\n")
+	return err
+}
