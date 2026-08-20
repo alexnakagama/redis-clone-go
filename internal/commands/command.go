@@ -388,7 +388,7 @@ func Process(parts []string, st *store.Store) (string, bool, error) {
 		return strLen + "\n", false, nil
 
 	case "RPUSH":
-		if len(parts) != 3 {
+		if len(parts) < 3 {
 			return "ERROR: expected 3 arguments\n", false, nil
 		}
 

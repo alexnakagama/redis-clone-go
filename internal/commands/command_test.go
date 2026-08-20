@@ -1241,6 +1241,30 @@ func TestProcessTypeMissingArgs(t *testing.T) {
 
 // Here starts the tests for the lists
 
-func TestProcessRPush(t *testing.T) {}
+func TestProcessRPush(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "2\n" {
+		t.Errorf("expected 2, got: %q", response)
+	}
+
+	lRangeResponse, _, err := Process([]string{"LRANGE", "name", "0", "2"}, st) 
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if lRangeResponse != "alex\njuan\n" {
+		t.Errorf("expected alex juan, got: %q", lRangeResponse)
+	}
+
+	if closeConn {
+		t.Errorf("RPUSH should not close the connection")
+	}
+}
 
 func TestProcessLPush(t *testing.T) {}
