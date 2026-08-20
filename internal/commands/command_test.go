@@ -1414,6 +1414,8 @@ func TestProcessLPop(t *testing.T) {
 	}
 }
 
+func TestProcessLPopMissingArgs(t *testing.T) {}
+
 func TestProcessRPop(t *testing.T) {
 	st := store.NewStore()
 
