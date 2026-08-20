@@ -583,6 +583,10 @@ func Process(parts []string, st *store.Store) (string, bool, error) {
 		return strconv.Itoa(quantity) + "\n", false, nil
 
 	case "QUIT":
+		if len(parts) != 1 {
+			return "ERROR: expected 1 argument", false, nil
+		}
+
 		return "OK\n", true, nil
 
 	default:

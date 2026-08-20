@@ -8,7 +8,22 @@ import (
 
 // Here are the tests for the strings and for store functions
 
-func TestProcessQuit(t *testing.T) {}
+func TestProcessQuit(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"QUIT"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "OK\n" {
+		t.Errorf("expected OK, got: %q", response)
+	}
+
+	if !closeConn {
+		t.Errorf("QUIT should close the connection")
+	}
+}
 
 func TestProcessPing(t *testing.T) {
 	st := store.NewStore()
