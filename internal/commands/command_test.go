@@ -1293,4 +1293,24 @@ func TestProcessLPush(t *testing.T) {
 	}
 }
 
-func TestProcessLLen(t *testing.T) {}
+func TestProcessLLen(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"LPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LLEN", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "2\n" {
+		t.Errorf("expected 2, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LLEN should not close the connection")
+	}
+}
