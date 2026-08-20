@@ -584,7 +584,7 @@ func Process(parts []string, st *store.Store) (string, bool, error) {
 
 	case "QUIT":
 		if len(parts) != 1 {
-			return "ERROR: expected 1 argument", false, nil
+			return "ERROR: expected 1 argument\n", false, nil
 		}
 
 		return "OK\n", true, nil

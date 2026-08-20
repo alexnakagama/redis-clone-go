@@ -25,7 +25,22 @@ func TestProcessQuit(t *testing.T) {
 	}
 }
 
-func TestProcessQuitMissingArgs(t *testing.T) {}
+func TestProcessQuitMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"QUIT", "opa"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 1 argument\n" {
+		t.Errorf("expected ERROR: expected 1 argument, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("QUIT if failed should not close the connection")
+	}
+}
 
 func TestProcessPing(t *testing.T) {
 	st := store.NewStore()
