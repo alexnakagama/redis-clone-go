@@ -6,3 +6,4 @@ type Encoder struct {
 	writer io.Writer
 }
 
+func NewEncoder(w io.Writer) *Encoder {}
