@@ -1671,3 +1671,5 @@ func TestProcessLTrimMissingArgs(t *testing.T) {
 		t.Errorf("LTRIM should not close the connection")
 	}
 }
+
+func TestProcessLPos(t *testing.T) {}
