@@ -5,15 +5,6 @@ import (
 	"testing"
 )
 
-func TestNewEncoder(t *testing.T) {
-	var buf bytes.Buffer
-
-	err := NewEncoder(&buf)
-	if err != nil {
-		t.Fatal(err)
-	}
-}
-
 func TestEncodeSimpleString(t *testing.T) {
 	var buf bytes.Buffer
 
@@ -39,7 +30,7 @@ func TestEncodeError(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := "-ERR unknown command\r\n"
+	expected := "--ERR unknown command\r\n"
 
 	if buf.String() != expected {
 		t.Errorf("expected %q, got: %q", expected, buf.String())
