@@ -1623,3 +1623,5 @@ func TestProcessLSetMissingArgs(t *testing.T) {
 		t.Errorf("LSET should not close the connection")
 	}
 }
+
+func TestProcessLTrim(t *testing.T) {}
