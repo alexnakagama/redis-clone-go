@@ -1517,3 +1517,5 @@ func TestProcessMissingKey(t *testing.T) {
 		t.Errorf("LRANGE should not close the connection")
 	}
 }
+
+func TestProcessMissingArgs(t *testing.T) {}
