@@ -1501,4 +1501,19 @@ func TestProcessLRange(t *testing.T) {
 	}
 }
 
-func TestProcessMissingArgs(t *testing.T) {}
+func TestProcessMissingKey(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LRANGE", "name", "0", "2"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: key not found\n" {
+		t.Errorf("expected ERROR: key not found, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LRANGE should not close the connection")
+	}
+}
