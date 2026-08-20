@@ -1292,3 +1292,5 @@ func TestProcessLPush(t *testing.T) {
 		t.Errorf("LPUSH should not close the connection")
 	}
 }
+
+func TestProcessLLen(t *testing.T) {}
