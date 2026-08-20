@@ -1310,6 +1310,23 @@ func TestProcessLPush(t *testing.T) {
 	}
 }
 
+func TestProcessLPushMissingArgs(t *testing.T) {
+	st := store.NewStore()
+	
+	response, closeConn, err := Process([]string{"LPUSH"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LPUSH should not close the connection")
+	}
+}
+
 func TestProcessLLen(t *testing.T) {
 	st := store.NewStore()
 
