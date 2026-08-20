@@ -1559,4 +1559,19 @@ func TestProcessLIndex(t *testing.T) {
 	}
 }
 
-func TestProcessLIndexMissingArgs(t *testing.T) {}
+func TestProcessLIndexMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LINDEX"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 3 arguments\n" {
+		t.Errorf("expected ERROR: expected 3 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LINDEX should not close the connection")
+	}
+}
