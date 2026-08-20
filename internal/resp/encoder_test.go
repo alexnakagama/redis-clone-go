@@ -89,3 +89,5 @@ func TestEncodeNull(t *testing.T) {
 		t.Errorf("expected %q, got: %q", expected, buf.String())
 	}
 }
+
+func TestEncodeArray(t *testing.T) {}
