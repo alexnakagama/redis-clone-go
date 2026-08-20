@@ -1,6 +1,8 @@
 package resp
 
-import (
+import "io"
 
-)
+type Encoder struct {
+	writer io.Writer
+}
 
