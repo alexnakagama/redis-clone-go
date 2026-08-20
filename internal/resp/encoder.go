@@ -11,3 +11,5 @@ func NewEncoder(w io.Writer) *Encoder {
 		writer: w,
 	}
 }
+
+func (e *Encoder) EncodeSimpleString(value string) error {}
