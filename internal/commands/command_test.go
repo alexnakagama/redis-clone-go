@@ -1479,4 +1479,24 @@ func TestProcessRPopMissingArgs(t *testing.T) {
 	}
 }
 
-func TestProcessLRange(t *testing.T) {}
+func TestProcessLRange(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	response, closeConn, err := Process([]string{"LRANGE", "name", "0", "2"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "alex\njuan\n" {
+		t.Errorf("expected alex juan, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LRANGE should not close the connection")
+	}
+}
