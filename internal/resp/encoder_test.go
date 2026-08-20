@@ -45,3 +45,5 @@ func TestEncodeError(t *testing.T) {
 		t.Errorf("expected %q, got: %q", expected, buf.String())
 	}
 }
+
+func TestEncodeInteger(t *testing.T) {}
