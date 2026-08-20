@@ -90,4 +90,19 @@ func TestEncodeNull(t *testing.T) {
 	}
 }
 
-func TestEncodeArray(t *testing.T) {}
+func TestEncodeArray(t *testing.T) {
+	var buf bytes.Buffer
+
+	encoder := NewEncoder(&buf)
+
+	err := encoder.EncodeArray([]string{"alex", "juan"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := "*2\r\n$4\r\nalex\r\n$4\r\njuan\r\n"
+
+	if buf.String() != expected {
+		t.Errorf("expected %q, got: %q", expected, buf.String())
+	}
+}
