@@ -1414,7 +1414,22 @@ func TestProcessLPop(t *testing.T) {
 	}
 }
 
-func TestProcessLPopMissingArgs(t *testing.T) {}
+func TestProcessLPopMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LPOP"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 2 arguments\n" {
+		t.Errorf("expected ERROR: expected 2 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LPOP should not close the connection")
+	}
+}
 
 func TestProcessRPop(t *testing.T) {
 	st := store.NewStore()
