@@ -1518,4 +1518,21 @@ func TestProcessMissingKey(t *testing.T) {
 	}
 }
 
-func TestProcessMissingArgs(t *testing.T) {}
+func TestProcessMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	_, _, err := Process([]string{"RPUSH", "name", "alex"}, st)
+
+	response, closeConn, err := Process([]string{"LRANGE"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 4 arguments\n" {
+		t.Errorf("expected ERROR: expected 4 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LRANGE should not close the connection")
+	}
+}
