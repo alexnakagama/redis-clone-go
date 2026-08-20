@@ -371,7 +371,7 @@ func Process(parts []string, st *store.Store) (string, bool, error) {
 		return st.Type(parts[1]) + "\n", false, nil
 
 	case "LPUSH":
-		if len(parts) != 3 {
+		if len(parts) < 3 {
 			return "ERROR: expected 3 arguments\n", false, nil
 		}
 

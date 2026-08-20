@@ -1267,4 +1267,28 @@ func TestProcessRPush(t *testing.T) {
 	}
 }
 
-func TestProcessLPush(t *testing.T) {}
+func TestProcessLPush(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LPUSH", "name", "alex", "juan"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "2\n" {
+		t.Errorf("expected 2, got: %q", response)
+	}
+
+	lRangeResponse, _, err := Process([]string{"LRANGE", "name", "0", "2"}, st) 
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if lRangeResponse != "juan\nalex\n" {
+		t.Errorf("expected juan alex, got: %q", lRangeResponse)
+	}
+
+	if closeConn {
+		t.Errorf("LPUSH should not close the connection")
+	}
+}
