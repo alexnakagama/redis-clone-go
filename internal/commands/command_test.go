@@ -1349,7 +1349,22 @@ func TestProcessLLen(t *testing.T) {
 	}
 }
 
-func TestProcessLLenEmpty(t *testing.T) {}
+func TestProcessLLenEmpty(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LLEN", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "0\n" {
+		t.Errorf("expected 0, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LLEN should not close the connection")
+	}
+}
 
 func TestProcessLLenMissingArgs(t *testing.T) {
 	st := store.NewStore()
