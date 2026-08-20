@@ -41,3 +41,19 @@ func (e *Encoder) EncodeNull() error {
 	_, err := fmt.Fprintf(e.writer, "$-1\r\n")
 	return err
 }
+
+func (e *Encoder) EncodeArray(values []string) error {
+	_, err := fmt.Fprintf(e.writer, "*%d\r\n", len(values))
+	if err != nil {
+		return err
+	}
+
+	for _, value := range values {
+		err := e.EncodeBulkString(value)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
