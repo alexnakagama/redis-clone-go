@@ -1742,4 +1742,19 @@ func TestProcessLRem(t *testing.T) {
 	}
 }
 
-func TestProcessLRemMissingArgs(t *testing.T) {}
+func TestProcessLRemMissingArgs(t *testing.T) {
+	st := store.NewStore()
+
+	response, closeConn, err := Process([]string{"LREM", "name"}, st)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if response != "ERROR: expected 4 arguments\n" {
+		t.Errorf("expected ERROR: expected 4 arguments, got: %q", response)
+	}
+
+	if closeConn {
+		t.Errorf("LREM should not close the connection")
+	}
+}
