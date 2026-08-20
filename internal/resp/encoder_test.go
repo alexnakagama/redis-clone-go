@@ -5,7 +5,14 @@ import (
 	"testing"
 )
 
-func TestNewEncoder(t *testing.T) {}
+func TestNewEncoder(t *testing.T) {
+	var buf bytes.Buffer
+
+	err := NewEncoder(&buf)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
 
 func TestEncodeSimpleString(t *testing.T) {
 	var buf bytes.Buffer
